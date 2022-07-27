@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/grid_movie_model/grid_movie_model.dart';
-import 'package:movies_app/resources/provider/provider.dart';
+import 'package:movies_app/screens/home/components/grid_movie_list/grid_movie_model.dart';
+import 'package:movies_app/resources/api_clients/api_clien_test.dart';
+
 
 class GridMovieList extends StatefulWidget {
 
@@ -34,6 +34,7 @@ class _GridMovieListState extends State<GridMovieList> {
             itemCount: model.movies.length,
             itemBuilder: (BuildContext context, int index){
               final movie = model.movies[index];
+              final posterPath = movie.posterPath;
               return Container(
                 alignment: Alignment.center,
                 child: InkWell(
@@ -41,8 +42,13 @@ class _GridMovieListState extends State<GridMovieList> {
                   child: Column(
                     children: [ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                    child:
-                      Text('картинка'),
+                    child: Text('image'),
+                        /*
+                    posterPath != null
+                        ? Image.network(ApiClientTest.imageUrl(posterPath),)
+                        : Container(color: Colors.blue),
+
+                         */
                     ),
                       SizedBox(height: 10),
                       Expanded(
@@ -63,7 +69,7 @@ class _GridMovieListState extends State<GridMovieList> {
                                   Column(
                                     children: [
                                       Text(
-                                        movie.releaseDate?.toString() ?? '312313',
+                                        movie.releaseDate,
                                         textDirection: TextDirection.ltr,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(

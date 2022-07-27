@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/grid_movie_model/grid_movie_model.dart';
+import 'package:movies_app/screens/home/components/grid_movie_list/grid_movie_model.dart';
 import 'package:movies_app/models/movie_screen_model/movie_screen_model.dart';
 import 'package:movies_app/resources/provider/provider.dart';
 import 'package:movies_app/screens/User/user_screen.dart';
 import 'package:movies_app/screens/favorites/favorites_screen.dart';
-import 'package:movies_app/screens/home/components/grid_movie_list.dart';
+import 'package:movies_app/screens/home/components/grid_movie_list/grid_movie_list.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);

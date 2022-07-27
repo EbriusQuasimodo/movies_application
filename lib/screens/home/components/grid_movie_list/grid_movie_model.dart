@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/movie_model.dart';
 import 'package:intl/intl.dart';
+import 'package:movies_app/resources/api_client.dart';
 import 'package:movies_app/resources/api_clients/api_clien_test.dart';
 
 class MovieGridModel extends ChangeNotifier {
@@ -23,7 +24,7 @@ class MovieGridModel extends ChangeNotifier {
   }
 
   Future<void> _loadMovies() async {
-    final moviesResponse = await _apiClient.popularMovie(1, _locale);
+    final moviesResponse = await _apiClient.popularMovie(1, '_locale');
     _movies.addAll(moviesResponse.movies);
     notifyListeners();
   }

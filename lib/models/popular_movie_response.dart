@@ -7,9 +7,7 @@ part 'popular_movie_response.g.dart';
 
 class PopularMovieResponse {
   final int page;
-  @JsonKey(
-    name: 'results',
-  )
+  @JsonKey(name: 'results')
   final List<Movie> movies;
   final int totalResults;
   final int totalPages;

@@ -7,14 +7,14 @@ class Movie{
   final String? posterPath;
   final bool adult;
   final String overview;
-  @JsonKey(fromJson: _parseDateFromString)
-  final DateTime? releaseDate;
+ // @JsonKey(fromJson: _parseDateFromString)
+  final String releaseDate; //DateTime?
   final List<int> genre_ids;
   final int id;
   final String originalTitle;
   final String originalLanguage;
   final String title;
-  final String? backgroundPath;
+  final String? backdropPath;
   final double popularity;
   final int voteCount;
   final bool video;
@@ -30,7 +30,7 @@ class Movie{
       required this.originalTitle,
       required this.originalLanguage,
       required this.title,
-      required this.backgroundPath,
+      required this.backdropPath,
       required this.popularity,
       required this.voteCount,
       required this.video,
@@ -40,10 +40,12 @@ class Movie{
   factory Movie.fromJson(Map<String, dynamic> json)=> _$MovieFromJson(json);
 
   Map<String,dynamic>toJson()=>_$MovieToJson(this);
-
+/*
   static DateTime? _parseDateFromString(String? rawDate){
     if (rawDate == null || rawDate.isEmpty)return null;
     return DateTime.tryParse(rawDate);
   }
+
+ */
 
 }

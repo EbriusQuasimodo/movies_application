@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/screens/home/components/grid_movie_list.dart';
+import 'package:movies_app/screens/home/components/grid_movie_list/grid_movie_list.dart';
 
 class MainInfo extends StatelessWidget {
   const MainInfo({Key? key}) : super(key: key);
