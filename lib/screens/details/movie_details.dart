@@ -4,7 +4,7 @@ import 'package:movies_app/screens/details/components/main_info.dart';
 import 'package:movies_app/screens/details/components/movie_description.dart';
 import 'package:movies_app/screens/details/components/movie_genre.dart';
 import 'package:movies_app/screens/home/components/app_bar.dart';
-import 'package:movies_app/screens/home/components/nav_bar.dart';
+import 'package:movies_app/screens/nav_bar.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;

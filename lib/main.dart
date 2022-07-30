@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/details/movie_details.dart';
 import 'package:movies_app/screens/favorites/favorites_screen.dart';
-import 'package:movies_app/screens/home/home_screen.dart';
+import 'package:movies_app/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());

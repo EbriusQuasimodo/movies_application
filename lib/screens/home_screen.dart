@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/home/components/app_bar.dart';
-import 'package:movies_app/screens/home/components/nav_bar.dart';
+import 'package:movies_app/screens/nav_bar.dart';
 
 
 class HomeScreen extends StatefulWidget {
