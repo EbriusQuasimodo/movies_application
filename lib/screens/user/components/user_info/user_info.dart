@@ -4,6 +4,7 @@ import 'package:movies_app/screens/User/components/user_info/user_age.dart';
 import 'package:movies_app/screens/User/components/user_info/user_gender.dart';
 import 'package:movies_app/screens/User/components/user_info/user_genre.dart';
 import 'package:movies_app/screens/User/components/user_info/user_name.dart';
+
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key}) : super(key: key);
 
@@ -47,17 +48,8 @@ class UserInfo extends StatelessWidget {
             ),
             SizedBox(height: 15),
             UserGenre(),
-            TextButton(
-              onPressed: (){},
-              child: Text(
-                'выход',
-                style: TextStyle(
-                    color: Colors.red,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                ),
-              ),
-            ),
+
+
           ],
         ),
       );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/screens/User/components/info_text.dart';
+
 import 'package:movies_app/screens/User/components/user_image.dart';
 import 'package:movies_app/screens/User/components/user_info/user_info.dart';
 
-import 'package:movies_app/screens/home/components/app_bar.dart';
+
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -23,6 +23,8 @@ class _UserScreenState extends State<UserScreen> {
         children: <Widget>[
           UserImage(),
           UserInfo(),
+          //QuitButton(),
+
         ],
       ),
 

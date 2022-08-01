@@ -36,7 +36,6 @@ class _MovieDetailsState extends State<MovieDetails> {
         centerTitle: true,
       ),
       body: ListView(
-
         children: [
           MainInfo(),
           FavoritesButton(),

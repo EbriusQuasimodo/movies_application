@@ -104,7 +104,7 @@ final state = context.watch<MoviesBloc>().state;
                           //SizedBox(height: 20,width: 20,),
                           Row(
                             children: [
-                              Column(
+                              Column( //можно попробовать завернуть в Align чтобы расположить по правой нижней стороне
                                 children: [
                                   Text(
                                     'дата выпуска',
