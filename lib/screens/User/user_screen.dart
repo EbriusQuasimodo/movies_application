@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/User/components/info_text.dart';
+import 'package:movies_app/screens/User/components/quit_button.dart';
 import 'package:movies_app/screens/User/components/user_image.dart';
 import 'package:movies_app/screens/User/components/user_info/user_info.dart';
 
@@ -23,6 +24,7 @@ class _UserScreenState extends State<UserScreen> {
         children: <Widget>[
           UserImage(),
           UserInfo(),
+          QuitButton(),
         ],
       ),
 

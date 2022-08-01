@@ -47,17 +47,7 @@ class UserInfo extends StatelessWidget {
             ),
             SizedBox(height: 15),
             UserGenre(),
-            TextButton(
-              onPressed: (){},
-              child: Text(
-                'выход',
-                style: TextStyle(
-                    color: Colors.red,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                ),
-              ),
-            ),
+
           ],
         ),
       );
