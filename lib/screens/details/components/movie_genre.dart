@@ -8,7 +8,7 @@ class MovieGenre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,6 +27,7 @@ class MovieGenre extends StatelessWidget {
                 color: Colors.black38,
               ),
             ),
+            SizedBox(height: 5),
           ],
         ),
       ),

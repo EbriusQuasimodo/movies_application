@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/screens/details/components/cast_list/cast_list.dart';
 import 'package:movies_app/screens/details/components/favorites_button.dart';
 import 'package:movies_app/screens/details/components/main_info.dart';
 import 'package:movies_app/screens/details/components/movie_description.dart';
@@ -26,6 +27,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black38,
         elevation: 0,
@@ -36,12 +38,12 @@ class _MovieDetailsState extends State<MovieDetails> {
         centerTitle: true,
       ),
       body: ListView(
-
         children: [
           MainInfo(),
           FavoritesButton(),
           MovieGenre(),
           Description(),
+          CastList(),
 
 
         ],

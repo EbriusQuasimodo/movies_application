@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/screens/home/components/grid_movie_list/grid_movie_model.dart';
-import 'package:movies_app/resources/api_clients/api_clien_test.dart';
 
 
 class GridMovieList extends StatefulWidget {
@@ -13,11 +11,17 @@ class GridMovieList extends StatefulWidget {
 
 class _GridMovieListState extends State<GridMovieList> {
 
+  void onMovieTap(int index) {
+    final id = [index];
+    Navigator.of(context).pushNamed(
+      "/home_screen/movie_details_screen",
+      arguments: id,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final model = GridMovieProvider.watch(context)?.model;
-    if (model == null) return Container(color: Colors.pink);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -31,18 +35,18 @@ class _GridMovieListState extends State<GridMovieList> {
               crossAxisSpacing: 25,
               mainAxisSpacing: 3,
             ),
-            itemCount: model.movies.length,
+            itemCount: 25,
             itemBuilder: (BuildContext context, int index){
-              final movie = model.movies[index];
-              final posterPath = movie.posterPath;
+
+
               return Container(
                 alignment: Alignment.center,
                 child: InkWell(
-                    onTap: () => model.onMovieTap(context, index),
+                    onTap: () => onMovieTap(index),
                   child: Column(
                     children: [ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                    child: Text('image'),
+                    child: Image.asset('assets/images/Fight_club.jpg'),
                         /*
                     posterPath != null
                         ? Image.network(ApiClientTest.imageUrl(posterPath),)
@@ -56,7 +60,7 @@ class _GridMovieListState extends State<GridMovieList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            movie.title,
+                            'Название фильма',
                             style: TextStyle(
                               color: Colors.black54,
                               fontWeight: FontWeight.bold,),
@@ -69,7 +73,7 @@ class _GridMovieListState extends State<GridMovieList> {
                                   Column(
                                     children: [
                                       Text(
-                                        movie.releaseDate,
+                                        'дата выхода',
                                         textDirection: TextDirection.ltr,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
