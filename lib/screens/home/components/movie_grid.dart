@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/bloc/movie_bloc/movies_bloc.dart';
-import 'package:movies_app/models/movie_model/movie_model.dart';
-import 'package:movies_app/models/movie_model/movie_model.dart';
 
 class MovieGrid extends StatefulWidget {
   const MovieGrid({
@@ -15,50 +11,9 @@ class MovieGrid extends StatefulWidget {
 
 class _MovieGridState extends State<MovieGrid> {
 
-  late Movie _currentMovie;
-  List<Results>_currentResults = [];
-  String _currentPage = '1';
-
-  @override
-  void InitState(){
-    if(_currentResults.isEmpty){
-      context
-          .read<MoviesBloc>()
-          .add(const MoviesEvent.fetch(page: '1'));
-    }
-    super.initState();
-
-}
-
   @override
   Widget build(BuildContext context) {
-final state = context.watch<MoviesBloc>().state;
-    return state.when(
-        loading: (){
-          return Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                const CircularProgressIndicator(strokeWidth: 2),
-                SizedBox(width: 10),
-                Text ('Ищу фильмы...'),]
-            ),
-          );
-        },
-        loaded: (movieLoaded) {
-          _currentMovie=movieLoaded;
-          _currentResults=_currentMovie.docs;
-          return _currentResults.isNotEmpty
-              ? Text('$_currentResults')
-              : Container(color: Colors.red);
-          },
-        error: () => const Text('Ой..Ничего не нашлось :('),
-
-
-
-
-      /*
-      Padding(
+      return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 9,
@@ -131,8 +86,6 @@ final state = context.watch<MoviesBloc>().state;
           }
       ),
     );
-
-       */
-    );
   }
-}
+
+ }
