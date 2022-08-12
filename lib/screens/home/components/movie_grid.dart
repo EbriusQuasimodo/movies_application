@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//это нигде не используется, все подключено к movie_screen.dart
 class MovieGrid extends StatefulWidget {
   const MovieGrid({
     Key? key,

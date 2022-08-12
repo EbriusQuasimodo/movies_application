@@ -1,15 +1,12 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+Model movieModelFromJson(String str) => Model.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String movieModelToJson(Model data) => json.encode(data.toJson());
 
-class Welcome {
-  Welcome({
+class Model {
+  Model({
     required this.docs,
     required this.total,
     required this.limit,
@@ -18,12 +15,12 @@ class Welcome {
   });
 
   List<Doc> docs;
-  int total;
-  int limit;
-  int page;
-  int pages;
+  num total;
+  num limit;
+  num page;
+  num pages;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Model.fromJson(Map<String, dynamic> json) => Model(
     docs: List<Doc>.from(json["docs"].map((x) => Doc.fromJson(x))),
     total: json["total"],
     limit: json["limit"],
@@ -64,12 +61,12 @@ class Doc {
   Poster poster;
   Rating rating;
   Rating votes;
-  int id;
-  String type;
+  num id;
+  String? type;
   dynamic name;
   dynamic description;
-  int year;
-  String alternativeName;
+  num year;
+  String? alternativeName;
   dynamic enName;
   dynamic movieLength;
   List<Name> names;
@@ -118,8 +115,8 @@ class ExternalId {
     required this.imdb,
   });
 
-  String id;
-  String imdb;
+  String? id;
+  String? imdb;
 
   factory ExternalId.fromJson(Map<String, dynamic> json) => ExternalId(
     id: json["_id"],
@@ -138,7 +135,7 @@ class Logo {
     required this.url,
   });
 
-  String id;
+  String? id;
   dynamic url;
 
   factory Logo.fromJson(Map<String, dynamic> json) => Logo(
@@ -158,8 +155,8 @@ class Name {
     required this.name,
   });
 
-  String id;
-  String name;
+  String? id;
+  String? name;
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
     id: json["_id"],
@@ -179,9 +176,9 @@ class Poster {
     required this.previewUrl,
   });
 
-  String id;
-  String url;
-  String previewUrl;
+  String? id;
+  String? url;
+  String? previewUrl;
 
   factory Poster.fromJson(Map<String, dynamic> json) => Poster(
     id: json["_id"],
@@ -206,12 +203,12 @@ class Rating {
     required this.ratingAwait,
   });
 
-  String id;
-  int kp;
-  int imdb;
-  int filmCritics;
-  int russianFilmCritics;
-  int ratingAwait;
+  String? id;
+  num kp;
+  num imdb;
+  num filmCritics;
+  num russianFilmCritics;
+  num ratingAwait;
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
     id: json["_id"],
