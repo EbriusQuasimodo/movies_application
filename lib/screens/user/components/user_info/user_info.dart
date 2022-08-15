@@ -49,7 +49,6 @@ class UserInfo extends StatelessWidget {
             SizedBox(height: 15),
             UserGenre(),
 
-
           ],
         ),
       );
