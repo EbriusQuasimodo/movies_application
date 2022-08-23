@@ -4,7 +4,6 @@ AppBar HomeAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.black38,
     elevation: 0,
-
     title: RichText(
       text: TextSpan(
         style: Theme.of(context)
@@ -13,12 +12,12 @@ AppBar HomeAppBar(BuildContext context) {
             ?.copyWith(fontWeight: FontWeight.bold),
         children: [
           TextSpan(
-              text: "Film",
-              style: TextStyle(color: Colors.pink[100])
+            text: "Film",
+            style: TextStyle(color: Colors.pink[100]),
           ),
           TextSpan(
-              text: "Club",
-              style: TextStyle(color: Colors.pink[200])
+            text: "Club",
+            style: TextStyle(color: Colors.pink[200]),
           ),
         ],
       ),
@@ -26,5 +25,3 @@ AppBar HomeAppBar(BuildContext context) {
     centerTitle: true,
   );
 }
-
-

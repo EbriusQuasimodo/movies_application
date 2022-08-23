@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/screens/home/components/app_bar.dart';
 import 'package:movies_app/screens/nav_bar.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -11,15 +10,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeAppBar(context),
-      body: NavBar(),
-
+      body: const NavBar(),
     );
   }
 }
-

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 Model movieModelFromJson(String str) => Model.fromJson(json.decode(str));
@@ -21,20 +20,20 @@ class Model {
   num pages;
 
   factory Model.fromJson(Map<String, dynamic> json) => Model(
-    docs: List<Doc>.from(json["docs"].map((x) => Doc.fromJson(x))),
-    total: json["total"],
-    limit: json["limit"],
-    page: json["page"],
-    pages: json["pages"],
-  );
+        docs: List<Doc>.from(json["docs"].map((x) => Doc.fromJson(x))),
+        total: json["total"],
+        limit: json["limit"],
+        page: json["page"],
+        pages: json["pages"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "docs": List<dynamic>.from(docs.map((x) => x.toJson())),
-    "total": total,
-    "limit": limit,
-    "page": page,
-    "pages": pages,
-  };
+        "docs": List<dynamic>.from(docs.map((x) => x.toJson())),
+        "total": total,
+        "limit": limit,
+        "page": page,
+        "pages": pages,
+      };
 }
 
 class Doc {
@@ -73,40 +72,40 @@ class Doc {
   dynamic shortDescription;
 
   factory Doc.fromJson(Map<String, dynamic> json) => Doc(
-    externalId: ExternalId.fromJson(json["externalId"]),
-    logo: Logo.fromJson(json["logo"]),
-    poster: Poster.fromJson(json["poster"]),
-    rating: Rating.fromJson(json["rating"]),
-    votes: Rating.fromJson(json["votes"]),
-    id: json["id"],
-    type: json["type"],
-    name: json["name"],
-    description: json["description"],
-    year: json["year"],
-    alternativeName: json["alternativeName"],
-    enName: json["enName"],
-    movieLength: json["movieLength"],
-    names: List<Name>.from(json["names"].map((x) => Name.fromJson(x))),
-    shortDescription: json["shortDescription"],
-  );
+        externalId: ExternalId.fromJson(json["externalId"]),
+        logo: Logo.fromJson(json["logo"]),
+        poster: Poster.fromJson(json["poster"]),
+        rating: Rating.fromJson(json["rating"]),
+        votes: Rating.fromJson(json["votes"]),
+        id: json["id"],
+        type: json["type"],
+        name: json["name"],
+        description: json["description"],
+        year: json["year"],
+        alternativeName: json["alternativeName"],
+        enName: json["enName"],
+        movieLength: json["movieLength"],
+        names: List<Name>.from(json["names"].map((x) => Name.fromJson(x))),
+        shortDescription: json["shortDescription"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "externalId": externalId.toJson(),
-    "logo": logo.toJson(),
-    "poster": poster.toJson(),
-    "rating": rating.toJson(),
-    "votes": votes.toJson(),
-    "id": id,
-    "type": type,
-    "name": name,
-    "description": description,
-    "year": year,
-    "alternativeName": alternativeName,
-    "enName": enName,
-    "movieLength": movieLength,
-    "names": List<dynamic>.from(names.map((x) => x.toJson())),
-    "shortDescription": shortDescription,
-  };
+        "externalId": externalId.toJson(),
+        "logo": logo.toJson(),
+        "poster": poster.toJson(),
+        "rating": rating.toJson(),
+        "votes": votes.toJson(),
+        "id": id,
+        "type": type,
+        "name": name,
+        "description": description,
+        "year": year,
+        "alternativeName": alternativeName,
+        "enName": enName,
+        "movieLength": movieLength,
+        "names": List<dynamic>.from(names.map((x) => x.toJson())),
+        "shortDescription": shortDescription,
+      };
 }
 
 class ExternalId {
@@ -119,14 +118,14 @@ class ExternalId {
   String? imdb;
 
   factory ExternalId.fromJson(Map<String, dynamic> json) => ExternalId(
-    id: json["_id"],
-    imdb: json["imdb"],
-  );
+        id: json["_id"],
+        imdb: json["imdb"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "imdb": imdb,
-  };
+        "_id": id,
+        "imdb": imdb,
+      };
 }
 
 class Logo {
@@ -139,14 +138,14 @@ class Logo {
   dynamic url;
 
   factory Logo.fromJson(Map<String, dynamic> json) => Logo(
-    id: json["_id"],
-    url: json["url"],
-  );
+        id: json["_id"],
+        url: json["url"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "url": url,
-  };
+        "_id": id,
+        "url": url,
+      };
 }
 
 class Name {
@@ -159,14 +158,14 @@ class Name {
   String? name;
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
-    id: json["_id"],
-    name: json["name"],
-  );
+        id: json["_id"],
+        name: json["name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "name": name,
-  };
+        "_id": id,
+        "name": name,
+      };
 }
 
 class Poster {
@@ -181,16 +180,16 @@ class Poster {
   String? previewUrl;
 
   factory Poster.fromJson(Map<String, dynamic> json) => Poster(
-    id: json["_id"],
-    url: json["url"],
-    previewUrl: json["previewUrl"],
-  );
+        id: json["_id"],
+        url: json["url"],
+        previewUrl: json["previewUrl"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "url": url,
-    "previewUrl": previewUrl,
-  };
+        "_id": id,
+        "url": url,
+        "previewUrl": previewUrl,
+      };
 }
 
 class Rating {
@@ -211,20 +210,20 @@ class Rating {
   num ratingAwait;
 
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-    id: json["_id"],
-    kp: json["kp"],
-    imdb: json["imdb"],
-    filmCritics: json["filmCritics"],
-    russianFilmCritics: json["russianFilmCritics"],
-    ratingAwait: json["await"],
-  );
+        id: json["_id"],
+        kp: json["kp"],
+        imdb: json["imdb"],
+        filmCritics: json["filmCritics"],
+        russianFilmCritics: json["russianFilmCritics"],
+        ratingAwait: json["await"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "kp": kp,
-    "imdb": imdb,
-    "filmCritics": filmCritics,
-    "russianFilmCritics": russianFilmCritics,
-    "await": ratingAwait,
-  };
+        "_id": id,
+        "kp": kp,
+        "imdb": imdb,
+        "filmCritics": filmCritics,
+        "russianFilmCritics": russianFilmCritics,
+        "await": ratingAwait,
+      };
 }

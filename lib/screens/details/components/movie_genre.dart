@@ -12,8 +12,9 @@ class MovieGenre extends StatelessWidget {
       child: Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Жанр",
+          children: const [
+            Text(
+              "Жанр",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 23,
@@ -21,7 +22,8 @@ class MovieGenre extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5),
-            Text("Триллер, драма, криминал",
+            Text(
+              "Триллер, драма, криминал",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black38,
@@ -30,9 +32,6 @@ class MovieGenre extends StatelessWidget {
           ],
         ),
       ),
-
-
     );
   }
 }
-

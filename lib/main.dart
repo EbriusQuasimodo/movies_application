@@ -18,31 +18,26 @@ class MyApp extends StatelessWidget {
       title: 'FimClub',
       theme: ThemeData(
         primaryColor: Colors.white,
-
-        bottomNavigationBarTheme:BottomNavigationBarThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
           elevation: 0,
           selectedItemColor: Colors.pink[200],
           unselectedItemColor: Colors.black38,
         ),
       ),
-
-
       routes: {
-        "/home_screen": (context) => HomeScreen(),
-        "/favorites_screen":(context)=>FavoritesScreen(),
-        "/home_screen/movie_details_screen":(context){
+        "/home_screen": (context) => const HomeScreen(),
+        "/favorites_screen": (context) => const FavoritesScreen(),
+        "/home_screen/movie_details_screen": (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments;
-          if (arguments is int){
+          if (arguments is int) {
             return MovieDetails(movieId: arguments);
-          }else{
-            return MovieDetails(movieId: 0);
+          } else {
+            return const MovieDetails(movieId: 0);
           }
         },
       },
       initialRoute: "/home_screen",
-
       home: const HomeScreen(),
     );
   }
 }
-

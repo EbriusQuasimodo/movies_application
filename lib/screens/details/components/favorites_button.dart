@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class FavoritesButton extends StatelessWidget {
   const FavoritesButton({
     Key? key,
@@ -13,15 +12,16 @@ class FavoritesButton extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: ElevatedButton(
-          onPressed: (){
-          },
-          child: Text("Добавить в избранное"),
+          onPressed: () {},
           style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),),),
-              backgroundColor: MaterialStateProperty.all(Colors.pink[100])
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all(Colors.pink[100]),
           ),
+          child: const Text("Добавить в избранное"),
         ),
       ),
     );

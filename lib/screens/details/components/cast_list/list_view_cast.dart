@@ -12,28 +12,31 @@ class ListViewCast extends StatelessWidget {
       height: 340,
       child: Scrollbar(
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           scrollDirection: Axis.horizontal,
           itemCount: 20,
           itemExtent: 170,
-          itemBuilder: (BuildContext context, int index){
+          itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.pink.shade50,
-                  border:
-                  Border.all(color: Colors.pink.shade50.withOpacity(0.2)),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  border: Border.all(
+                    color: Colors.pink.shade50.withOpacity(0.2),
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.pink.shade500.withOpacity(0.2),
                       blurRadius: 8,
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
-                child: ActorInfo(),
+                child: const ActorInfo(),
               ),
             );
           },
@@ -42,4 +45,3 @@ class ListViewCast extends StatelessWidget {
     );
   }
 }
-

@@ -8,7 +8,7 @@ class ActorInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(20)),
+      borderRadius: const BorderRadius.all(Radius.circular(20),),
       clipBehavior: Clip.hardEdge,
       child: Column(
         children: [
@@ -16,25 +16,28 @@ class ActorInfo extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:[
-                  Text('Хелена Бонем Картер',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black54,
-                    ),),
-                  SizedBox(height: 8),
-                  Text('Марла',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.black38,),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Хелена Бонем Картер',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black54,
                   ),
-                ]
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Марла',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.black38,
+                  ),
+                ),
+              ],
             ),
           ),
-
         ],
       ),
     );

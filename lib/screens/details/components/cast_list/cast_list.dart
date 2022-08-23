@@ -17,23 +17,21 @@ class _CastListState extends State<CastList> {
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children : [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20,),
-            child: Text('Актеры',
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Text(
+              'Актеры',
               style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
-              color: Colors.black54,
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+                color: Colors.black54,
               ),
             ),
           ),
           ListViewCast(),
-          //Padding(padding: EdgeInsets.all(10))
-
-        ]
+        ],
       ),
     );
   }
 }
-
