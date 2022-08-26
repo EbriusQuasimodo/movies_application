@@ -9,7 +9,7 @@ class LoadedMovieScreenState extends MovieScreenState {
   final List<Docs> loadedMovies;
 
   LoadedMovieScreenState(
-      {required this.loadedMovies}); // : assert(loadedMovies != null);
+      {required this.loadedMovies}) : assert(loadedMovies != null);
 }
 
 class ErrorMovieScreenState extends MovieScreenState {}

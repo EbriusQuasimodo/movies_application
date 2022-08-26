@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/movie_screen_bloc/movie_screen_bloc.dart';
+import 'package:movies_app/models/movie_model.dart';
+import 'package:movies_app/resources/api_client/api_client_dio.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
-import 'package:movies_app/screens/home/components/movie_grid.dart';
-import 'package:http/http.dart' as http;
 
 class MovieScreen extends StatelessWidget {
   MovieScreen({Key? key}) : super(key: key);
@@ -21,8 +21,8 @@ class MovieScreen extends StatelessWidget {
     );
   }
 
-  _movieBloc(context) {
-    final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
+  Widget _movieBloc(context) {
+    //final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
         if (state is InitialMovieScreenState) {
@@ -57,8 +57,8 @@ class MovieScreen extends StatelessWidget {
     );
   }
 
-  _movieItems(context, element) {
-    final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
+  Widget _movieItems(BuildContext context, Docs element) {
+    //final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
     return Container(
       alignment: Alignment.center,
       child: InkWell(
@@ -77,9 +77,9 @@ class MovieScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'element.',
-                    style: TextStyle(
+                  Text(
+                    element.name!,
+                    style: const TextStyle(
                       color: Colors.black54,
                       fontWeight: FontWeight.bold,
                     ),
@@ -92,7 +92,7 @@ class MovieScreen extends StatelessWidget {
                       Column(
                         children: const [
                           Text(
-                            'дата выпуска',
+                            'element.year',
                             textDirection: TextDirection.ltr,
                             textAlign: TextAlign.right,
                             style: TextStyle(

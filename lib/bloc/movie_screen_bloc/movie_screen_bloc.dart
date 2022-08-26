@@ -1,9 +1,7 @@
-import 'dart:async';
-import 'dart:html';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:movies_app/models/movie_model.dart';
+import 'package:movies_app/resources/api_client/api_client_dio.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 part 'movie_screen_event.dart';
@@ -18,9 +16,9 @@ class MovieScreenBloc extends Bloc<MovieScreenEvent, MovieScreenState> {
     on<InitialMovieScreenEvent>((event, emit) async {
       emit(InitialMovieScreenState());
       try {
-        final List<Docs> _loadedMovieList =
-        await movieRepository.fetchAllMovies();
-        emit(LoadedMovieScreenState(loadedMovies: _loadedMovieList));
+        final List<Docs> loadedMovieList =
+            await movieRepository.fetchAllMovies();
+        emit(LoadedMovieScreenState(loadedMovies: loadedMovieList));
       } catch (_) {
         emit(ErrorMovieScreenState());
       }

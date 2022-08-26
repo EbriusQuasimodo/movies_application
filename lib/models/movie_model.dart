@@ -1,6 +1,6 @@
-/*
 class MovieModel {
   final List<Docs> docs;
+
   MovieModel({
     required this.docs,
   });
@@ -11,14 +11,12 @@ class MovieModel {
     return MovieModel(
       docs: List<Docs>.from(
         json['docs'].map(
-              (e) => Docs.fromJson(e),
+          (e) => Docs.fromJson(e),
         ),
       ),
     );
   }
 }
-
- */
 
 class Docs {
   final int id;
@@ -40,7 +38,7 @@ class Docs {
       id: json['id'],
       poster: List<Poster>.from(
         json['poster'].map(
-              (e) => Poster.fromJson(e),
+          (e) => Poster.fromJson(e),
         ),
       ),
       name: json['name'] ?? 'без названия',

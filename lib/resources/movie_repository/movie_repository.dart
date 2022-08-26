@@ -1,8 +1,9 @@
 import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/api_client/api_client.dart';
+import 'package:movies_app/resources/api_client/api_client_dio.dart';
 
 class MovieRepository {
-  ApiClient _apiClient = ApiClient();
+  ApiClientDio _apiClient = ApiClientDio();
 
-  Future<List<Docs>> fetchAllMovies() => _apiClient.fetchMovies();
+  Future<List<Docs>> fetchAllMovies() => _apiClient.getMovieDio();
 }
