@@ -28,10 +28,10 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedPage,
-        children: const [
+        children: [
           MovieScreen(),
-          FavoritesScreen(),
-          UserScreen(),
+          const FavoritesScreen(),
+          const UserScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
