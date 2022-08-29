@@ -6,10 +6,9 @@ abstract class MovieScreenState {}
 class InitialMovieScreenState extends MovieScreenState {}
 
 class LoadedMovieScreenState extends MovieScreenState {
-  final List<Docs> loadedMovies;
+  final List<MovieModel> loadedMovies;
 
-  LoadedMovieScreenState(
-      {required this.loadedMovies}) : assert(loadedMovies != null);
+  LoadedMovieScreenState({required this.loadedMovies});
 }
 
 class ErrorMovieScreenState extends MovieScreenState {}

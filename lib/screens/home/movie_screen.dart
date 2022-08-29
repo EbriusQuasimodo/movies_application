@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/movie_screen_bloc/movie_screen_bloc.dart';
 import 'package:movies_app/models/movie_model.dart';
-import 'package:movies_app/resources/api_client/api_client_dio.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class MovieScreen extends StatelessWidget {
@@ -15,16 +14,21 @@ class MovieScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (_) => MovieScreenBloc(movieRepository: movieRepository)
-          ..add(InitialMovieScreenEvent()),
+          ..add(
+            InitialMovieScreenEvent(),
+          ),
         child: _movieBloc(context),
       ),
     );
   }
 
   Widget _movieBloc(context) {
-    //final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
+        print(state.runtimeType);
+        if (state is ErrorMovieScreenState) {
+          return const Text('error');
+        }
         if (state is InitialMovieScreenState) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -33,15 +37,15 @@ class MovieScreen extends StatelessWidget {
         if (state is LoadedMovieScreenState) {
           return Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: 10,
               vertical: 9,
             ),
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 310,
-                childAspectRatio: 1.9 / 3,
-                crossAxisSpacing: 25,
-                mainAxisSpacing: 3,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.5,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
               ),
               itemCount: state.loadedMovies.length,
               itemBuilder: (BuildContext context, int index) {
@@ -57,20 +61,23 @@ class MovieScreen extends StatelessWidget {
     );
   }
 
-  Widget _movieItems(BuildContext context, Docs element) {
-    //final MovieScreenBloc movieScreenBloc = context.read<MovieScreenBloc>();
+  Widget _movieItems(BuildContext context, MovieModel element) {
     return Container(
       alignment: Alignment.center,
       child: InkWell(
         onTap: () {},
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20),
+            Flexible(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                child: Image.network(
+                  element.poster!.previewUrl,
+                  fit: BoxFit.fill,
+                ),
               ),
-              child: Image.asset('assets/images/Fight_club.jpg'),
-              //Image.network(movie.),
             ),
             const SizedBox(height: 10),
             Expanded(
@@ -86,24 +93,18 @@ class MovieScreen extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  //SizedBox(height: 20,width: 20,),
-                  Row(
-                    children: [
-                      Column(
-                        children: const [
-                          Text(
-                            'element.year',
-                            textDirection: TextDirection.ltr,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Colors.black26,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    element.year!.toString(),
+                    textDirection: TextDirection.ltr,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black26,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

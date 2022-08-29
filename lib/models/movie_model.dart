@@ -1,31 +1,11 @@
 class MovieModel {
-  final List<Docs> docs;
-
-  MovieModel({
-    required this.docs,
-  });
-
-  //List<Docs> docs;
-
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
-    return MovieModel(
-      docs: List<Docs>.from(
-        json['docs'].map(
-          (e) => Docs.fromJson(e),
-        ),
-      ),
-    );
-  }
-}
-
-class Docs {
   final int id;
-  final List<Poster> poster;
+  final Poster? poster;
   final String? name;
   final String? description;
-  final int year;
+  final int? year;
 
-  Docs({
+  MovieModel({
     required this.id,
     required this.poster,
     this.name,
@@ -33,14 +13,10 @@ class Docs {
     required this.year,
   });
 
-  factory Docs.fromJson(Map<String, dynamic> json) {
-    return Docs(
+  factory MovieModel.fromJson(Map<String, dynamic> json) {
+    return MovieModel(
       id: json['id'],
-      poster: List<Poster>.from(
-        json['poster'].map(
-          (e) => Poster.fromJson(e),
-        ),
-      ),
+      poster: Poster.fromJson(json['poster']),
       name: json['name'] ?? 'без названия',
       description: json['description'] ?? 'без описания',
       year: json['year'],
@@ -61,9 +37,9 @@ class Poster {
 
   factory Poster.fromJson(Map<String, dynamic> json) {
     return Poster(
-      id: json['id'],
-      url: json['url'],
-      previewUrl: json['previewUrl'],
+      id: json['id'] ?? '',
+      url: json['url'] ?? '',
+      previewUrl: json['previewUrl'] ?? '',
     );
   }
 }

@@ -12,16 +12,26 @@ class MovieScreenBloc extends Bloc<MovieScreenEvent, MovieScreenState> {
   final MovieRepository movieRepository;
 
   MovieScreenBloc({required this.movieRepository})
-      : super(InitialMovieScreenState()) {
-    on<InitialMovieScreenEvent>((event, emit) async {
-      emit(InitialMovieScreenState());
-      try {
-        final List<Docs> loadedMovieList =
-            await movieRepository.fetchAllMovies();
-        emit(LoadedMovieScreenState(loadedMovies: loadedMovieList));
-      } catch (_) {
-        emit(ErrorMovieScreenState());
-      }
-    });
+      : super(
+          InitialMovieScreenState(),
+        ) {
+    on<InitialMovieScreenEvent>(
+      (event, emit) async {
+        emit(
+          InitialMovieScreenState(),
+        );
+        try {
+          final List<MovieModel> loadedMovieList =
+              await movieRepository.fetchAllMovies();
+          emit(
+            LoadedMovieScreenState(loadedMovies: loadedMovieList),
+          );
+        } catch (_) {
+          emit(
+            ErrorMovieScreenState(),
+          );
+        }
+      },
+    );
   }
 }
