@@ -1,6 +1,6 @@
 class MovieModel {
   final int id;
-  final Poster? poster;
+  final PosterModel? poster;
   final String? name;
   final String? description;
   final int? year;
@@ -16,16 +16,16 @@ class MovieModel {
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
       id: json['id'],
-      poster: Poster.fromJson(json['poster']),
-      name: json['name'] ?? 'без названия',
-      description: json['description'] ?? 'без описания',
-      year: json['year'],
+      poster: PosterModel.fromJson(json['poster']),
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      year: json['year'] ?? '',
     );
   }
 }
 
-class Poster {
-  Poster({
+class PosterModel {
+  PosterModel({
     required this.id,
     required this.url,
     required this.previewUrl,
@@ -35,11 +35,11 @@ class Poster {
   String url;
   String previewUrl;
 
-  factory Poster.fromJson(Map<String, dynamic> json) {
-    return Poster(
-      id: json['id'] ?? '',
-      url: json['url'] ?? '',
-      previewUrl: json['previewUrl'] ?? '',
+  factory PosterModel.fromJson(Map<String, dynamic> json) {
+    return PosterModel(
+      id: json['id']??'',
+      url: json['url']??'',
+      previewUrl: json['previewUrl']??'',
     );
   }
 }

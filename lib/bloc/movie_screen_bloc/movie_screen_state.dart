@@ -1,14 +1,21 @@
 part of 'movie_screen_bloc.dart';
 
 @immutable
-abstract class MovieScreenState {}
+class MovieScreenState {
+  const MovieScreenState._({
+    this.currentPage = 1,
+    this.loadMovies = const <MovieModel>[],
+  });
 
-class InitialMovieScreenState extends MovieScreenState {}
+  final int currentPage;
+  final List<MovieModel> loadMovies;
 
-class LoadedMovieScreenState extends MovieScreenState {
-  final List<MovieModel> loadedMovies;
+  const MovieScreenState.initial() : this._();
 
-  LoadedMovieScreenState({required this.loadedMovies});
+  const MovieScreenState.loading() : this._();
+
+  const MovieScreenState.success({required List<MovieModel> loadMovies})
+      : this._(loadMovies: loadMovies);
+
+  const MovieScreenState.error() : this._();
 }
-
-class ErrorMovieScreenState extends MovieScreenState {}
