@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 AppBar HomeAppBar(BuildContext context) {
   return AppBar(
+    automaticallyImplyLeading: false,
     backgroundColor: Colors.black38,
     elevation: 0,
     title: RichText(

@@ -1,89 +1,96 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/bloc/movie_screen_bloc/movie_screen_bloc.dart';
+import 'package:movies_app/models/movie_model.dart';
+import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
-class MovieScreen extends StatefulWidget {
-  const MovieScreen({
-    Key? key,
-  }) : super(key: key);
+class MovieScreen extends StatelessWidget {
+  MovieScreen({Key? key}) : super(key: key);
 
-  @override
-  _MovieScreenState createState() => _MovieScreenState();
-}
+  final MovieRepository movieRepository = MovieRepository();
 
-class _MovieScreenState extends State<MovieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 9,
-        ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 310,
-            childAspectRatio: 1.9 / 3,
-            crossAxisSpacing: 25,
-            mainAxisSpacing: 3,
+      body: BlocProvider(
+        create: (_) => MovieScreenBloc(movieRepository: movieRepository)
+          ..add(
+            GetMoviesEvent(),
           ),
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            // final movie = gridMovieModel.movies[index];
-            return Container(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {},
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Image.asset('assets/images/Fight_club.jpg'),
-                      //Image.network(movie.),
-                    ),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'movieBloc.',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          //SizedBox(height: 20,width: 20,),
-                          Row(
-                            children: [
-                              Column(
-                                children: const [
-                                  Text(
-                                    'дата выпуска',
-                                    textDirection: TextDirection.ltr,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: Colors.black26,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+        child: _movieBloc(context),
       ),
+    );
+  }
+
+  Widget _movieBloc(BuildContext context) {
+    return BlocBuilder<MovieScreenBloc, MovieScreenState>(
+      builder: (context, state) {
+        if (state.status == MovieStatus.error) {
+          return const Text('error');
+        }
+        if (state.status == MovieStatus.loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state.status == MovieStatus.success) {
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisExtent: 290,
+            ),
+            itemCount: state.loadMovies.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildMovieItemTest(context, state.loadMovies[index]);
+            },
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _buildMovieItemTest(BuildContext context, MovieModel element) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
+            child: Image.network(element.poster!.previewUrl),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          element.name ?? '',
+          style: const TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          element.year?.toString() ?? '',
+          style: const TextStyle(
+            color: Colors.black26,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }
