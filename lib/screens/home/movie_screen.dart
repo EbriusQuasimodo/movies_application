@@ -26,15 +26,15 @@ class MovieScreen extends StatelessWidget {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
-        if (state == const MovieScreenState.error()) {
+        if (state.status == MovieStatus.error) {
           return const Text('error');
         }
-        if (state == const MovieScreenState.loading()) {
+        if (state.status == MovieStatus.loading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (state == MovieScreenState.success(loadMovies: state.loadMovies)) {
+        if (state.status == MovieStatus.success) {
           return GridView.builder(
             padding: const EdgeInsets.all(10),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,42 +56,39 @@ class MovieScreen extends StatelessWidget {
 
   Widget _buildMovieItemTest(BuildContext context, MovieModel element) {
     return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: SizedBox(
-            height: 230,
+        Expanded(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
             child: Image.network(element.poster!.previewUrl),
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                element.name ?? '',
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                element.year.toString() ?? '',
-                style: const TextStyle(
-                  color: Colors.black26,
-                ),
-              ),
-            ],
+        Text(
+          element.name ?? '',
+          style: const TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          element.year?.toString() ?? '',
+          style: const TextStyle(
+            color: Colors.black26,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
       ],
     );
