@@ -15,6 +15,7 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   final MovieRepository movieRepository = MovieRepository();
 
+  late final MovieScreenBloc _bloc = MovieScreenBloc(movieRepository: movieRepository);
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -22,9 +23,9 @@ class _MovieScreenState extends State<MovieScreen> {
     super.initState();
     scrollController.addListener(
       () {
-        if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) {
-          _loadMore;
+        if (scrollController.position.maxScrollExtent ==
+            scrollController.offset) {
+          _bloc.add(GetMoviesEvent());
         }
       },
     );
@@ -40,10 +41,7 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => MovieScreenBloc(movieRepository: movieRepository)
-          ..add(
-            GetMoviesEvent(),
-          ),
+        create: (_) => _bloc,
         child: _movieBloc(context),
       ),
     );
@@ -52,6 +50,7 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
+        print(state.runtimeType);
         if (state.status == MovieStatus.error) {
           return const Text('error');
         }
@@ -119,9 +118,5 @@ class _MovieScreenState extends State<MovieScreen> {
         ),
       ],
     );
-  }
-
-  void _loadMore() {
-    context.read<MovieScreenBloc>().add(LoadMoreMovies());
   }
 }

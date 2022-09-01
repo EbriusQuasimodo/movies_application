@@ -18,17 +18,19 @@ class MovieScreenBloc extends Bloc<MovieScreenEvent, MovieScreenState> {
     on<GetMoviesEvent>(
       (event, emit) async {
         emit(
-          const MovieScreenState.loading(),
+          MovieScreenState.loading(currentPage: state.currentPage),
         );
         try {
           final List<MovieModel> loadedMovieList =
-              await movieRepository.fetchAllMovies();
+              await movieRepository.fetchAllMovies(page: state.currentPage + 1);
           emit(
-            MovieScreenState.success(loadMovies: loadedMovieList),
+            MovieScreenState.success(
+                loadMovies: List.of(state.loadMovies)..addAll(loadedMovieList),
+                currentPage: state.currentPage + 1),
           );
         } catch (_) {
           emit(
-            const MovieScreenState.error(),
+            MovieScreenState.error(currentPage: state.currentPage),
           );
         }
       },

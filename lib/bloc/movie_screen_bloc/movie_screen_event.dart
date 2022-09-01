@@ -4,5 +4,3 @@ part of 'movie_screen_bloc.dart';
 abstract class MovieScreenEvent {}
 
 class GetMoviesEvent extends MovieScreenEvent {}
-
-class LoadMoreMovies extends MovieScreenEvent{}
