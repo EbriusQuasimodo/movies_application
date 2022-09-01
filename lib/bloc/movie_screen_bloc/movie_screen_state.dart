@@ -6,7 +6,7 @@ enum MovieStatus { initial, loading, success, error}
 class MovieScreenState {
   const MovieScreenState._({
     this.status = MovieStatus.initial,
-    this.currentPage = 1,
+    this.currentPage = 0,
     this.loadMovies = const <MovieModel>[],
   });
 
