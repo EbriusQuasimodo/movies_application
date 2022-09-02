@@ -10,7 +10,7 @@ class ApiClientDio {
   Future<List<MovieModel>> getMovieDio(int page) async {
     try {
       Response response = await dio.get(
-        '/movie?token=$token&field=rating.kp&search=7-10p',
+        '/movie?token=$token&field=rating.kp&search=7-10',
         queryParameters: {
           'page': page.toString(),
         }

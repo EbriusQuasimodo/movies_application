@@ -14,10 +14,10 @@ class MovieScreenState {
   final int currentPage;
   final List<MovieModel> loadMovies;
 
-  const MovieScreenState.initial() : this._(currentPage: 1);
+  const MovieScreenState.initial() : this._(currentPage: 0);
 
   const MovieScreenState.loading({required int currentPage})
-      : this._(currentPage: 1, status: MovieStatus.loading);
+      : this._(currentPage: 0, status: MovieStatus.loading);
 
   const MovieScreenState.success(
       {required List<MovieModel> loadMovies, required int currentPage})
@@ -27,5 +27,5 @@ class MovieScreenState {
             currentPage: currentPage);
 
   const MovieScreenState.error({required int currentPage})
-      : this._(status: MovieStatus.error, currentPage: 1);
+      : this._(status: MovieStatus.error, currentPage: 0);
 }

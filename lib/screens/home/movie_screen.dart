@@ -6,7 +6,7 @@ import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class MovieScreen extends StatefulWidget {
-  MovieScreen({Key? key}) : super(key: key);
+  const MovieScreen({Key? key}) : super(key: key);
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();
@@ -15,7 +15,8 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   final MovieRepository movieRepository = MovieRepository();
 
-  late final MovieScreenBloc _bloc = MovieScreenBloc(movieRepository: movieRepository);
+  late final MovieScreenBloc _bloc =
+      MovieScreenBloc(movieRepository: movieRepository)..add(GetMoviesEvent());
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -32,7 +33,7 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     scrollController.dispose();
   }
