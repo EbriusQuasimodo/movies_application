@@ -16,7 +16,8 @@ class MovieModel {
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
       id: json['id'],
-      poster: PosterModel.fromJson(json['poster']),
+      poster:
+          json['poster'] == null ? null : PosterModel.fromJson(json['poster']),
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       year: json['year'] ?? '',
@@ -37,9 +38,9 @@ class PosterModel {
 
   factory PosterModel.fromJson(Map<String, dynamic> json) {
     return PosterModel(
-      id: json['id']??'',
-      url: json['url']??'',
-      previewUrl: json['previewUrl']??'',
+      id: json['id'] ?? '',
+      url: json['url'] ?? '',
+      previewUrl: json['previewUrl'] ?? '',
     );
   }
 }

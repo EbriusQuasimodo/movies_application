@@ -16,7 +16,7 @@ class _MovieScreenState extends State<MovieScreen> {
   final MovieRepository movieRepository = MovieRepository();
 
   late final MovieScreenBloc _bloc =
-      MovieScreenBloc(movieRepository: movieRepository)..add(GetMoviesEvent());
+      MovieScreenBloc(movieRepository: movieRepository)..add(GetMoviesEvent(shouldShowProgress: true));
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -24,9 +24,9 @@ class _MovieScreenState extends State<MovieScreen> {
     super.initState();
     scrollController.addListener(
       () {
-        if (scrollController.position.maxScrollExtent ==
+        if (scrollController.position.maxScrollExtent * 0.8 <
             scrollController.offset) {
-          _bloc.add(GetMoviesEvent());
+          _bloc.add(GetMoviesEvent(shouldShowProgress: false));
         }
       },
     );
