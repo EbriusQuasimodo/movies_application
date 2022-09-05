@@ -16,7 +16,7 @@ class MovieModel {
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
       id: json['id'],
-      poster: PosterModel.fromJson(json['poster']),
+      poster: json['poster'] == null ? null : PosterModel.fromJson(json['poster']),
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       year: json['year'] ?? '',
