@@ -91,7 +91,7 @@ class _MovieScreenState extends State<MovieScreen> {
             borderRadius: const BorderRadius.all(
               Radius.circular(20),
             ),
-            child: Image.network(element.poster!.previewUrl),
+            child: Image.network(element.poster?.previewUrl ?? ''),
           ),
         ),
         const SizedBox(
