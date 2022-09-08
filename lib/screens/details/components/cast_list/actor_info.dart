@@ -12,7 +12,7 @@ class ActorInfo extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: Column(
         children: [
-          Image.asset('assets/images/actor.jpg'),
+          //Image.asset('assets/images/actor.jpg'),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
