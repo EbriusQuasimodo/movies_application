@@ -12,7 +12,7 @@ class MovieDetailsModel {
   MovieDetailsModel({
     required this.id,
     required this.type,
-    this.name,
+    required this.name,
     this.description,
     required this.slogan,
     required this.year,
@@ -25,7 +25,7 @@ class MovieDetailsModel {
     return MovieDetailsModel(
       id: json['id'],
       type: json['type'],
-      name: json['name'] ?? '',
+      name: json['name'] ??'',
       description: json['description'] ?? '',
       slogan: json['slogan'],
       year: json['year'],

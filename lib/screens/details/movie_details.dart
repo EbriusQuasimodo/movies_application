@@ -90,7 +90,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
-                  "Бойцовский клуб",
+                  'element.name ??''',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -99,7 +99,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Янв 13, 2000",
+                  'element.year.toString()',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
