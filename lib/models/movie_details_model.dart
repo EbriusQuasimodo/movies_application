@@ -13,11 +13,11 @@ class MovieDetailsModel {
     required this.id,
     required this.type,
     required this.name,
-    this.description,
+    required this.description,
     required this.slogan,
     required this.year,
-    this.poster,
-    this.rating,
+    required this.poster,
+    required this.rating,
     required this.persons,
   });
 
@@ -25,7 +25,7 @@ class MovieDetailsModel {
     return MovieDetailsModel(
       id: json['id'],
       type: json['type'],
-      name: json['name'] ??'',
+      name: json['name'] ?? '',
       description: json['description'] ?? '',
       slogan: json['slogan'],
       year: json['year'],
@@ -66,16 +66,13 @@ class PosterDetailsModel {
 class RatingDetailsModel {
   RatingDetailsModel({
     required this.kp,
-    required this.imdb,
   });
 
   int kp;
-  int? imdb;
 
   factory RatingDetailsModel.fromJson(Map<String, dynamic> json) {
     return RatingDetailsModel(
       kp: json['kp'],
-      imdb: json['imdb'] ?? '',
     );
   }
 }

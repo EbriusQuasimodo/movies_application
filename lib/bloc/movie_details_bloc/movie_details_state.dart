@@ -7,12 +7,12 @@ class MovieDetailsState {
   const MovieDetailsState._({
     this.status = MovieDetailsStatus.initial,
     required this.id,
-    this.loadMovies = const <MovieDetailsModel>[],
+    this.loadedMovie,
   });
 
   final int id;
   final MovieDetailsStatus status;
-  final List<MovieDetailsModel> loadMovies;
+  final MovieDetailsModel? loadedMovie;
 
   const MovieDetailsState.initial({required int id}) : this._(id: id);
 
@@ -20,12 +20,13 @@ class MovieDetailsState {
       : this._(status: MovieDetailsStatus.loading, id: id);
 
   const MovieDetailsState.success(
-      {required List<MovieDetailsModel> loadMovies, required int id})
+      {required MovieDetailsModel loadMovies, required int id})
       : this._(
           status: MovieDetailsStatus.success,
-          loadMovies: loadMovies,
+          loadedMovie: loadMovies,
           id: id,
         );
 
-  const MovieDetailsState.error({required int id}) : this._(status: MovieDetailsStatus.error, id: id);
+  const MovieDetailsState.error({required int id})
+      : this._(status: MovieDetailsStatus.error, id: id);
 }

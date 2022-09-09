@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:movies_app/models/movie_details_model.dart';
-import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 part 'movie_details_event.dart';
@@ -22,11 +19,12 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       emit(
         MovieDetailsState.loading(id: movieId),
       );
-      final List<MovieDetailsModel> loadedMovieList =
+      final MovieDetailsModel loadedMovie =
           await movieRepository.fetchAllDetails(id: state.id);
       emit(
         MovieDetailsState.success(
-          loadMovies: List.of(state.loadMovies)..addAll(loadedMovieList),
+          loadMovies: loadedMovie,
+          //List.of(state.loadMovies)..addAll(loadedMovieList),
           id: movieId,
         ),
       );

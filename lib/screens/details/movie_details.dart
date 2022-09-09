@@ -25,7 +25,6 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.movieId);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black38,
@@ -46,7 +45,6 @@ class _MovieDetailsState extends State<MovieDetails> {
   Widget _detailsBloc(BuildContext context) {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        print(state.runtimeType);
         if (state.status == MovieDetailsStatus.error) {
           return const Text('error');
         }
@@ -58,7 +56,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         if (state.status == MovieDetailsStatus.success) {
           return ListView(
             children: [
-              _buildMainInfo(context, state.loadMovies[widget.movieId]),
+              _buildMainInfo(context, state.loadedMovie!),
             ],
           );
         }
@@ -88,25 +86,25 @@ class _MovieDetailsState extends State<MovieDetails> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'element.name ??''',
-                  style: TextStyle(
+                  element.name ??'',
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
-                  'element.year.toString()',
+                  element.year.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black38,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           ),

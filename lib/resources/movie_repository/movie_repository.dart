@@ -8,6 +8,6 @@ class MovieRepository {
   Future<List<MovieModel>> fetchAllMovies({required int page}) =>
       apiClient.getMovieDio(page);
 
-  Future<List<MovieDetailsModel>> fetchAllDetails({required int id}) =>
+  Future<MovieDetailsModel> fetchAllDetails({required int id}) =>
       apiClient.getMovieDetailsDio(id);
 }

@@ -26,16 +26,12 @@ class ApiClientDio {
     }
   }
 
-  Future<List<MovieDetailsModel>> getMovieDetailsDio(int id) async {
+  Future<MovieDetailsModel> getMovieDetailsDio(int id) async {
     try {
       Response response = await dio.get(
         '/movie?token=$token&field=id&search=$id',
       );
-      return List<MovieDetailsModel>.from(
-        response.data['docs'].map(
-          (e) => MovieDetailsModel.fromJson(e),
-        ),
-      );
+      return MovieDetailsModel.fromJson(response.data);
     } on DioError catch (error) {
       print(error);
       rethrow;
