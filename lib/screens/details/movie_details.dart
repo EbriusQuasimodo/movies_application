@@ -57,6 +57,51 @@ class _MovieDetailsState extends State<MovieDetails> {
           return ListView(
             children: [
               _buildMainInfo(context, state.loadedMovie!),
+              const SizedBox(height: 10),
+              _favoritesButton(),
+              const SizedBox(height: 10),
+              _movieDescription(
+                  context, state.loadedMovie!, state.loadedMovie!.genres),
+              const SizedBox(height: 10),
+              _buildCastList(context, state.loadedMovie!),
+              SizedBox(
+                height: 340,
+                child: Scrollbar(
+                  child: ListView.builder(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.loadedMovie!.persons.length,
+                    itemExtent: 170,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 0),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.pink.shade50,
+                            border: Border.all(
+                              color: Colors.pink.shade50.withOpacity(0.2),
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.pink.shade500.withOpacity(0.2),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: _buildActorItem(
+                              context, state.loadedMovie!.persons),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
           );
         }
@@ -82,13 +127,12 @@ class _MovieDetailsState extends State<MovieDetails> {
                 child: Image.network(element.poster?.url ?? '')),
           ),
           const SizedBox(width: 15),
-          //название и дата выхода
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  element.name ??'',
+                  element.name ?? '',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -105,6 +149,121 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                 ),
                 const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _favoritesButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+      child: SizedBox(
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all(Colors.pink[100]),
+          ),
+          child: const Text("Добавить в избранное"),
+        ),
+      ),
+    );
+  }
+
+  Widget _movieDescription(BuildContext context, MovieDetailsModel element,
+      List<GenresDetailsModel> elementGenre) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Описание",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            element.description ?? '',
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 16,
+            ),
+          ),
+          const Text(
+            'element.genres.',
+            style: TextStyle(
+              color: Colors.black38,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCastList(BuildContext context, MovieDetailsModel element) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Text(
+            'Актеры',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActorItem(
+      BuildContext context, List<PersonsDetailsModel> elementPerson) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(20),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: Column(
+        children: [
+          //Image.network(elementPerson.),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Хелена Бонем Картер',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Марла',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.black38,
+                  ),
+                ),
               ],
             ),
           ),

@@ -8,6 +8,8 @@ class MovieDetailsModel {
   final PosterDetailsModel? poster;
   final RatingDetailsModel? rating;
   final List<PersonsDetailsModel> persons;
+  final VideosDetailsModel? videos;
+  final List<GenresDetailsModel> genres;
 
   MovieDetailsModel({
     required this.id,
@@ -19,6 +21,8 @@ class MovieDetailsModel {
     required this.poster,
     required this.rating,
     required this.persons,
+    this.videos,
+    required this.genres,
   });
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +42,13 @@ class MovieDetailsModel {
       persons: (json['persons'] as List<dynamic>)
           .map((dynamic e) =>
               PersonsDetailsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      videos: json['videos'] == null
+          ? null
+          : VideosDetailsModel.fromJson(json['videos']),
+      genres: (json['genres'] as List<dynamic>)
+          .map((dynamic e) =>
+              GenresDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -96,6 +107,54 @@ class PersonsDetailsModel {
       name: json['name'],
       photo: json['photo'],
       description: json['description'] ?? '',
+    );
+  }
+}
+
+class VideosDetailsModel {
+  VideosDetailsModel({required this.id, required this.trailers});
+
+  String? id;
+  List<TrailersDetailsModel> trailers;
+
+  factory VideosDetailsModel.fromJson(Map<String, dynamic> json) {
+    return VideosDetailsModel(
+      id: json['id'] ?? '',
+      trailers: (json['trailers'] as List<dynamic>)
+          .map((dynamic e) =>
+              TrailersDetailsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class TrailersDetailsModel {
+  TrailersDetailsModel({
+    required this.url,
+    required this.name,
+  });
+
+  String url;
+  String name;
+
+  factory TrailersDetailsModel.fromJson(Map<String, dynamic> json) {
+    return TrailersDetailsModel(
+      url: json['url'],
+      name: json['name'],
+    );
+  }
+}
+
+class GenresDetailsModel {
+  GenresDetailsModel({
+    required this.name,
+  });
+
+  String name;
+
+  factory GenresDetailsModel.fromJson(Map<String, dynamic> json) {
+    return GenresDetailsModel(
+      name: json['name'],
     );
   }
 }
