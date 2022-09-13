@@ -57,47 +57,21 @@ class _MovieDetailsState extends State<MovieDetails> {
           return ListView(
             children: [
               _buildMainInfo(context, state.loadedMovie!),
-              const SizedBox(height: 10),
               _favoritesButton(),
-              const SizedBox(height: 10),
-              _movieDescription(
-                  context, state.loadedMovie!, state.loadedMovie!.genres),
-              const SizedBox(height: 10),
+              _movieDescription(context, state.loadedMovie!),
               _buildCastList(context, state.loadedMovie!),
               SizedBox(
-                height: 340,
+                height: 370,
                 child: Scrollbar(
                   child: ListView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
                     scrollDirection: Axis.horizontal,
                     itemCount: state.loadedMovie!.persons.length,
                     itemExtent: 170,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.pink.shade50,
-                            border: Border.all(
-                              color: Colors.pink.shade50.withOpacity(0.2),
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.pink.shade500.withOpacity(0.2),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: _buildActorItem(
-                              context, state.loadedMovie!.persons),
-                        ),
-                      );
+                      return _buildActorItem(
+                          context, state.loadedMovie!.persons[index]);
                     },
                   ),
                 ),
@@ -172,16 +146,22 @@ class _MovieDetailsState extends State<MovieDetails> {
             ),
             backgroundColor: MaterialStateProperty.all(Colors.pink[100]),
           ),
-          child: const Text("Добавить в избранное"),
+          child: const Text(
+            "Добавить в избранное",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _movieDescription(BuildContext context, MovieDetailsModel element,
-      List<GenresDetailsModel> elementGenre) {
+  Widget _movieDescription(BuildContext context, MovieDetailsModel element) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -193,17 +173,10 @@ class _MovieDetailsState extends State<MovieDetails> {
               color: Colors.black54,
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 15),
           Text(
             element.description ?? '',
             style: const TextStyle(
-              color: Colors.black38,
-              fontSize: 16,
-            ),
-          ),
-          const Text(
-            'element.genres.',
-            style: TextStyle(
               color: Colors.black38,
               fontSize: 16,
             ),
@@ -218,9 +191,9 @@ class _MovieDetailsState extends State<MovieDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: const [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 15),
           child: Text(
-            'Актеры',
+            'Команда',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 23,
@@ -233,41 +206,65 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _buildActorItem(
-      BuildContext context, List<PersonsDetailsModel> elementPerson) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(20),
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        children: [
-          //Image.network(elementPerson.),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Хелена Бонем Картер',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.black54,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Марла',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Colors.black38,
-                  ),
-                ),
-              ],
-            ),
+      BuildContext context, PersonsDetailsModel elementPerson) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.pink.shade50,
+          border: Border.all(
+            color: Colors.pink.shade50.withOpacity(0.2),
           ),
-        ],
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.pink.shade500.withOpacity(0.2),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: Column(
+            children: [
+              Image.network(elementPerson.photo),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: Column(
+                  children: [
+                    Text(
+                      elementPerson.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      elementPerson.description ?? '',
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.black38,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

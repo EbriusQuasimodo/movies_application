@@ -79,11 +79,11 @@ class RatingDetailsModel {
     required this.kp,
   });
 
-  int kp;
+  num? kp;
 
   factory RatingDetailsModel.fromJson(Map<String, dynamic> json) {
     return RatingDetailsModel(
-      kp: json['kp'],
+      kp: json['kp'] ?? '',
     );
   }
 }

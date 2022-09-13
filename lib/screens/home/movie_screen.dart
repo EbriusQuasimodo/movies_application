@@ -99,8 +99,13 @@ class _MovieScreenState extends State<MovieScreen> {
               Radius.circular(20),
             ),
             child: GestureDetector(
-                onTap: () => _onMovieTap(index),
-                child: Image.network(element.poster?.previewUrl ?? '')),
+              onTap: () => _onMovieTap(index),
+              child: element.poster?.previewUrl == null
+                  ? Container(
+                      color: Colors.pink,
+                    )
+                  : Image.network(element.poster?.previewUrl ?? ''),
+            ),
           ),
         ),
         const SizedBox(
