@@ -77,13 +77,16 @@ class PosterDetailsModel {
 class RatingDetailsModel {
   RatingDetailsModel({
     required this.kp,
+    required this.imdb,
   });
 
   num? kp;
+  double? imdb;
 
   factory RatingDetailsModel.fromJson(Map<String, dynamic> json) {
     return RatingDetailsModel(
       kp: json['kp'] ?? '',
+      imdb: json['imdb'] ?? '',
     );
   }
 }

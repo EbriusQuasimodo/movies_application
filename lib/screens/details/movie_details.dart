@@ -58,10 +58,11 @@ class _MovieDetailsState extends State<MovieDetails> {
             children: [
               _buildMainInfo(context, state.loadedMovie!),
               _favoritesButton(),
-              _movieDescription(context, state.loadedMovie!),
+              _movieDescription(
+                  context, state.loadedMovie!, state.loadedMovie!.genres),
               _buildCastList(context, state.loadedMovie!),
               SizedBox(
-                height: 370,
+                height: 340,
                 child: Scrollbar(
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(
@@ -87,6 +88,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _buildMainInfo(BuildContext context, MovieDetailsModel element) {
+    final rating = element.rating!.imdb.toString();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -123,6 +125,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'рейтинг imdb: $rating',
+                    style: const TextStyle(
+                      color: Colors.black38,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -159,7 +170,17 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _movieDescription(BuildContext context, MovieDetailsModel element) {
+  Widget _movieDescription(BuildContext context, MovieDetailsModel element,
+      List<GenresDetailsModel> elementGenre) {
+    final genre = elementGenre;
+    var textsGenres = <String>[];
+    if (genre != null && genre.isNotEmpty) {
+      var genresNames = <String>[];
+      for (var genr in genre) {
+        genresNames.add(genr.name);
+      }
+      textsGenres.add(genresNames.join(', '));
+    }
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 0),
       child: Column(
@@ -173,9 +194,26 @@ class _MovieDetailsState extends State<MovieDetails> {
               color: Colors.black54,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
           Text(
             element.description ?? '',
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            "Жанры",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            textsGenres.join(' '),
             style: const TextStyle(
               color: Colors.black38,
               fontSize: 16,
@@ -232,34 +270,45 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
           clipBehavior: Clip.hardEdge,
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Image.network(elementPerson.photo),
-              const SizedBox(height: 10),
+              Expanded(
+                child: Image.network(
+                  elementPerson.photo,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 7),
               Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
-                child: Column(
-                  children: [
-                    Text(
-                      elementPerson.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
+                padding: const EdgeInsets.only(left: 3, right: 3),
+                child: SizedBox(
+                  height: 70,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          elementPerson.name,
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          elementPerson.description ?? '',
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.black38,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      elementPerson.description ?? '',
-                      maxLines: 2,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.black38,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
