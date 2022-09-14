@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:movies_app/models/movie_model.dart';
-import 'package:movies_app/resources/api_client/api_client_dio.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 part 'movie_screen_event.dart';
@@ -17,20 +16,24 @@ class MovieScreenBloc extends Bloc<MovieScreenEvent, MovieScreenState> {
         ) {
     on<GetMoviesEvent>(
       (event, emit) async {
-        emit(
-          const MovieScreenState.loading(),
-        );
-        try {
-          final List<MovieModel> loadedMovieList =
-              await movieRepository.fetchAllMovies();
+        if (event.shouldShowProgress) {
           emit(
-            MovieScreenState.success(loadMovies: loadedMovieList),
-          );
-        } catch (_) {
-          emit(
-            const MovieScreenState.error(),
+            MovieScreenState.loading(currentPage: state.currentPage),
           );
         }
+        //try {
+        final List<MovieModel> loadedMovieList =
+            await movieRepository.fetchAllMovies(page: state.currentPage + 1);
+        emit(
+          MovieScreenState.success(
+              loadMovies: List.of(state.loadMovies)..addAll(loadedMovieList),
+              currentPage: state.currentPage + 1),
+        );
+        // } catch (_) {
+        // emit(
+        // MovieScreenState.error(currentPage: state.currentPage),
+        // );
+        //}
       },
     );
   }

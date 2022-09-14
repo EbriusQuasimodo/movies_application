@@ -5,19 +5,45 @@ import 'package:movies_app/bloc/movie_screen_bloc/movie_screen_bloc.dart';
 import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
-class MovieScreen extends StatelessWidget {
-  MovieScreen({Key? key}) : super(key: key);
+class MovieScreen extends StatefulWidget {
+  const MovieScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
   final MovieRepository movieRepository = MovieRepository();
+
+  late final MovieScreenBloc _bloc =
+      MovieScreenBloc(movieRepository: movieRepository)
+        ..add(GetMoviesEvent(shouldShowProgress: true));
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent) {
+          _bloc.add(GetMoviesEvent(shouldShowProgress: false));
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => MovieScreenBloc(movieRepository: movieRepository)
-          ..add(
-            GetMoviesEvent(),
-          ),
+        create: (_) => _bloc,
         child: _movieBloc(context),
       ),
     );
@@ -26,6 +52,7 @@ class MovieScreen extends StatelessWidget {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
+        print(state.runtimeType);
         if (state.status == MovieStatus.error) {
           return const Text('error');
         }
@@ -36,6 +63,7 @@ class MovieScreen extends StatelessWidget {
         }
         if (state.status == MovieStatus.success) {
           return GridView.builder(
+            controller: scrollController,
             padding: const EdgeInsets.all(10),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -63,7 +91,7 @@ class MovieScreen extends StatelessWidget {
             borderRadius: const BorderRadius.all(
               Radius.circular(20),
             ),
-            child: Image.network(element.poster!.previewUrl),
+            child: Image.network(element.poster?.previewUrl ?? ''),
           ),
         ),
         const SizedBox(
