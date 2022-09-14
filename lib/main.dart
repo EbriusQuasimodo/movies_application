@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/screens/details/movie_details.dart';
 import 'package:movies_app/screens/favorites/favorites_screen.dart';
 import 'package:movies_app/screens/home_screen.dart';
-import 'package:movies_app/screens/nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         },
       },
       initialRoute: "/home_screen",
-      home: const NavBar(),
+      //home: const NavBar(),
     );
   }
 }
