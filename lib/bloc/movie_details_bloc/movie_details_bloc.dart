@@ -23,7 +23,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
           await movieRepository.fetchAllDetails(id: state.id);
       emit(
         MovieDetailsState.success(
-          loadMovies: loadedMovie,
+          loadedMovie: loadedMovie,
           //List.of(state.loadMovies)..addAll(loadedMovieList),
           id: movieId,
         ),

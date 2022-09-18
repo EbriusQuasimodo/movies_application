@@ -57,7 +57,6 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
-        print(state.runtimeType);
         if (state.status == MovieStatus.error) {
           return const Text('error');
         }
@@ -76,8 +75,7 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
             itemCount: state.loadMovies.length,
             itemBuilder: (BuildContext context, int index) {
-              return _buildMovieItemTest(
-                  context, state.loadMovies[index], index);
+              return _buildMovieItem(context, state.loadMovies[index], index);
             },
           );
         }
@@ -88,8 +86,7 @@ class _MovieScreenState extends State<MovieScreen> {
     );
   }
 
-  Widget _buildMovieItemTest(
-      BuildContext context, MovieModel element, int index) {
+  Widget _buildMovieItem(BuildContext context, MovieModel element, int index) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -104,7 +101,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   ? Container(
                       color: Colors.pink,
                     )
-                  : Image.network(element.poster?.previewUrl ?? ''),
+                  : Image.network(element.poster!.previewUrl),
             ),
           ),
         ),

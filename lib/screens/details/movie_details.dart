@@ -88,7 +88,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _buildMainInfo(BuildContext context, MovieDetailsModel element) {
-    final rating = element.rating!.imdb.toString();
+    final rating = element.rating?.imdb.toString() ?? '';
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -97,10 +97,15 @@ class _MovieDetailsState extends State<MovieDetails> {
           Flexible(
             flex: 1,
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                child: Image.network(element.poster?.url ?? '')),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              child: element.poster?.previewUrl == null
+                  ? Container(
+                      color: Colors.pink,
+                    )
+                  : Image.network(element.poster?.previewUrl ?? ''),
+            ),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -172,15 +177,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _movieDescription(BuildContext context, MovieDetailsModel element,
       List<GenresDetailsModel> elementGenre) {
-    final genre = elementGenre;
-    var textsGenres = <String>[];
-    if (genre != null && genre.isNotEmpty) {
-      var genresNames = <String>[];
-      for (var genr in genre) {
-        genresNames.add(genr.name);
-      }
-      textsGenres.add(genresNames.join(', '));
-    }
+    final String textGenres = elementGenre.map((e) => e.name).join(', ');
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 0),
       child: Column(
@@ -195,13 +192,15 @@ class _MovieDetailsState extends State<MovieDetails> {
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            element.description ?? '',
-            style: const TextStyle(
-              color: Colors.black38,
-              fontSize: 16,
-            ),
-          ),
+          element.description == null
+              ? const SizedBox.shrink()
+              : Text(
+                  element.description ?? '',
+                  style: const TextStyle(
+                    color: Colors.black38,
+                    fontSize: 16,
+                  ),
+                ),
           const SizedBox(height: 15),
           const Text(
             "Жанры",
@@ -213,7 +212,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
           const SizedBox(height: 10),
           Text(
-            textsGenres.join(' '),
+            textGenres,
             style: const TextStyle(
               color: Colors.black38,
               fontSize: 16,

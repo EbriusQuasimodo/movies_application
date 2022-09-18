@@ -20,10 +20,10 @@ class MovieDetailsState {
       : this._(status: MovieDetailsStatus.loading, id: id);
 
   const MovieDetailsState.success(
-      {required MovieDetailsModel loadMovies, required int id})
+      {required MovieDetailsModel loadedMovie, required int id})
       : this._(
           status: MovieDetailsStatus.success,
-          loadedMovie: loadMovies,
+          loadedMovie: loadedMovie,
           id: id,
         );
 
