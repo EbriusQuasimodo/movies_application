@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         },
       },
       initialRoute: "/home_screen",
-      home: const HomeScreen(),
+      //home: const NavBar(),
     );
   }
 }

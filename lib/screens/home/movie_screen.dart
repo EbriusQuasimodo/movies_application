@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/movie_screen_bloc/movie_screen_bloc.dart';
@@ -39,6 +38,12 @@ class _MovieScreenState extends State<MovieScreen> {
     scrollController.dispose();
   }
 
+  void _onMovieTap(int index) {
+    final id = _bloc.state.loadMovies[index].id;
+    Navigator.of(context)
+        .pushNamed('/home_screen/movie_details_screen', arguments: id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +57,6 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
-        print(state.runtimeType);
         if (state.status == MovieStatus.error) {
           return const Text('error');
         }
@@ -71,7 +75,7 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
             itemCount: state.loadMovies.length,
             itemBuilder: (BuildContext context, int index) {
-              return _buildMovieItemTest(context, state.loadMovies[index]);
+              return _buildMovieItem(context, state.loadMovies[index], index);
             },
           );
         }
@@ -82,7 +86,7 @@ class _MovieScreenState extends State<MovieScreen> {
     );
   }
 
-  Widget _buildMovieItemTest(BuildContext context, MovieModel element) {
+  Widget _buildMovieItem(BuildContext context, MovieModel element, int index) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -91,7 +95,14 @@ class _MovieScreenState extends State<MovieScreen> {
             borderRadius: const BorderRadius.all(
               Radius.circular(20),
             ),
-            child: Image.network(element.poster?.previewUrl ?? ''),
+            child: GestureDetector(
+              onTap: () => _onMovieTap(index),
+              child: element.poster?.previewUrl == null
+                  ? Container(
+                      color: Colors.pink,
+                    )
+                  : Image.network(element.poster!.previewUrl),
+            ),
           ),
         ),
         const SizedBox(

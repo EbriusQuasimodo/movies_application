@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:movies_app/screens/User/user_screen.dart';
 import 'package:movies_app/screens/favorites/favorites_screen.dart';
 import 'package:movies_app/screens/home/movie_screen.dart';
 
@@ -28,10 +26,9 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedPage,
-        children: [
+        children: const [
           MovieScreen(),
-          const FavoritesScreen(),
-          const UserScreen(),
+          FavoritesScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -44,10 +41,6 @@ class _NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'избранное',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'профиль',
           ),
         ],
         onTap: onSelectPage,
