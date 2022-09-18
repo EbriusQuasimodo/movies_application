@@ -1,6 +1,6 @@
 part of 'movie_details_bloc.dart';
 
-enum MovieDetailsStatus { initial, loading, success, error }
+enum MovieDetailsStatus { initial, loading, success, error, save }
 
 @immutable
 class MovieDetailsState {
@@ -8,8 +8,10 @@ class MovieDetailsState {
     this.status = MovieDetailsStatus.initial,
     required this.id,
     this.loadedMovie,
+    this.favoritesMovie,
   });
 
+  final List<FavoritesScreenModel>? favoritesMovie;
   final int id;
   final MovieDetailsStatus status;
   final MovieDetailsModel? loadedMovie;
@@ -29,4 +31,8 @@ class MovieDetailsState {
 
   const MovieDetailsState.error({required int id})
       : this._(status: MovieDetailsStatus.error, id: id);
+
+  const MovieDetailsState.save({required List<FavoritesScreenModel>? favoritesMovie, required int id})
+      : this._(status: MovieDetailsStatus.save, id: id, favoritesMovie: favoritesMovie);
+
 }

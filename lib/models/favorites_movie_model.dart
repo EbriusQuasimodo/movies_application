@@ -1,4 +1,4 @@
-class MovieDetailsModel {
+class FavoritesMovieModel {
   final int id;
   final String type;
   final String? name;
@@ -11,7 +11,7 @@ class MovieDetailsModel {
   final VideosDetailsModel? videos;
   final List<GenresDetailsModel> genres;
 
-  MovieDetailsModel({
+  FavoritesMovieModel({
     required this.id,
     required this.type,
     required this.name,
@@ -25,8 +25,8 @@ class MovieDetailsModel {
     required this.genres,
   });
 
-  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) {
-    return MovieDetailsModel(
+  factory FavoritesMovieModel.fromJson(Map<String, dynamic> json) {
+    return FavoritesMovieModel(
       id: json['id'],
       type: json['type'],
       name: json['name'] ?? '',
@@ -41,14 +41,14 @@ class MovieDetailsModel {
           : RatingDetailsModel.fromJson(json['rating']),
       persons: (json['persons'] as List<dynamic>)
           .map((dynamic e) =>
-              PersonsDetailsModel.fromJson(e as Map<String, dynamic>))
+          PersonsDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       videos: json['videos'] == null
           ? null
           : VideosDetailsModel.fromJson(json['videos']),
       genres: (json['genres'] as List<dynamic>)
           .map((dynamic e) =>
-              GenresDetailsModel.fromJson(e as Map<String, dynamic>))
+          GenresDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -125,7 +125,7 @@ class VideosDetailsModel {
       id: json['id'] ?? '',
       trailers: (json['trailers'] as List<dynamic>)
           .map((dynamic e) =>
-              TrailersDetailsModel.fromJson(e as Map<String, dynamic>))
+          TrailersDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }

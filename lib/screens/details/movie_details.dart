@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/movie_details_bloc/movie_details_bloc.dart';
 import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
+import 'package:movies_app/services/save_to_favorites_service.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
@@ -18,10 +19,13 @@ class MovieDetails extends StatefulWidget {
 
 class _MovieDetailsState extends State<MovieDetails> {
   final MovieRepository movieRepository = MovieRepository();
+  final SaveToFavoritesService service = SaveToFavoritesService();
 
   late final MovieDetailsBloc _bloc = MovieDetailsBloc(
-      movieRepository: movieRepository, movieId: widget.movieId)
-    ..add(GetMovieDetailsEvent());
+    movieRepository: movieRepository,
+    movieId: widget.movieId,
+    service: RepositoryProvider.of<SaveToFavoritesService>(context),
+  )..add(GetMovieDetailsEvent());
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +57,14 @@ class _MovieDetailsState extends State<MovieDetails> {
             child: CircularProgressIndicator(),
           );
         }
+        if (state.status == MovieDetailsStatus.save) {
+          print('save');
+        }
         if (state.status == MovieDetailsStatus.success) {
           return ListView(
             children: [
               _buildMainInfo(context, state.loadedMovie!),
-              _favoritesButton(),
+              _favoritesButton(context, state.loadedMovie!),
               _movieDescription(
                   context, state.loadedMovie!, state.loadedMovie!.genres),
               _buildCastList(context, state.loadedMovie!),
@@ -89,6 +96,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _buildMainInfo(BuildContext context, MovieDetailsModel element) {
     final rating = element.rating!.imdb.toString();
+    final ratingKp = element.rating!.kp.toString();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -100,7 +108,11 @@ class _MovieDetailsState extends State<MovieDetails> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
-                child: Image.network(element.poster?.url ?? '')),
+                child: element.poster?.previewUrl == null
+                    ? Container(
+                        color: Colors.black12,
+                      )
+                    : Image.network(element.poster?.previewUrl ?? '')),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -134,6 +146,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'рейтинг kp: $ratingKp',
+                    style: const TextStyle(
+                      color: Colors.black38,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -142,13 +163,19 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget _favoritesButton() {
+  Widget _favoritesButton(BuildContext context, MovieDetailsModel element) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
       child: SizedBox(
         height: 50,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () => BlocProvider.of<MovieDetailsBloc>(context).add(
+            SaveToFavoritesScreenEvent(
+                movieId: widget.movieId,
+                poster: element.poster?.previewUrl,
+                name: element.name,
+                year: element.year),
+          ),
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(

@@ -57,7 +57,6 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget _movieBloc(BuildContext context) {
     return BlocBuilder<MovieScreenBloc, MovieScreenState>(
       builder: (context, state) {
-        print(state.runtimeType);
         if (state.status == MovieStatus.error) {
           return const Text('error');
         }
@@ -102,7 +101,7 @@ class _MovieScreenState extends State<MovieScreen> {
               onTap: () => _onMovieTap(index),
               child: element.poster?.previewUrl == null
                   ? Container(
-                      color: Colors.pink,
+                      color: Colors.black12,
                     )
                   : Image.network(element.poster?.previewUrl ?? ''),
             ),
