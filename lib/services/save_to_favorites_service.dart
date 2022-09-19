@@ -10,12 +10,16 @@ class SaveToFavoritesService {
 
   List<FavoritesScreenModel>? favoritesMovies(final int movieId,
       final String? poster, final String? name, final int? year) {
-    final favoritesId = favorites?.values.where((element) =>
+  favorites?.add(FavoritesScreenModel(movieId: movieId, poster: poster, name: name, year: year));
+    /*
+    final favoritesMovie = favorites?.values.where((element) =>
         element.movieId == movieId &&
         element.poster == poster &&
         element.name == name &&
         element.year == year);
-    return favoritesId?.toList();
+    return favoritesMovie?.toList();
+
+     */
     //print(favorites.values);
   }
 

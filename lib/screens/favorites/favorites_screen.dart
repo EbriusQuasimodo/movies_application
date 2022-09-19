@@ -1,58 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/resources/api_client/api_client_dio.dart';
-import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class FavoritesScreen extends StatefulWidget {
-
-
-
-  const FavoritesScreen({Key? key,}) : super(key: key);
+  const FavoritesScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
-  final apiClient = ApiClientDio();
-  final MovieRepository movieRepository = MovieRepository();
-
 /*
-  late final FavoritesScreenBloc _bloc = FavoritesScreenBloc(
-      movieRepository: movieRepository, movieId: widget.movieId)
-    ..add(GetFavoritesMovieEvent());
+late final FavoritesScreenModel model;
+final SaveToFavoritesService service = SaveToFavoritesService();
+*/
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  /*
+  late final FavoritesScreenBloc _bloc = FavoritesScreenBloc(service: RepositoryProvider.of<SaveToFavoritesService>(context),)
+    ..add(
+      GetFavoritesMoviesEvent(
+        shouldShowProgress: true,
+        movieId: model.movieId,
+        name: model.name,
+        poster: model.poster,
+        year: model.year,
+      ),
+    );
 
  */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          /*
+        body: Container(
+      color: Colors.yellowAccent,
+    )
+        /*
       BlocProvider(
         create: (_) => _bloc,
-        child:
-        ),
+        child: _favoritesBloc(context),
+      ),
 
-           */
-        //_favoritesBloc(context),
-        Container(color: Colors.yellowAccent,),
-    );
-
+       */
+        );
   }
+/*
 
-  /*
   Widget _favoritesBloc(BuildContext context) {
     return BlocBuilder<FavoritesScreenBloc, FavoritesScreenState>(
       builder: (context, state) {
-        if (state.status == FavoritesMovieStatus.error) {
+        if (state.status == MovieStatus.error) {
           return const Text('error');
         }
-        if (state.status == FavoritesMovieStatus.loading) {
+        if (state.status == MovieStatus.loading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (state.status == FavoritesMovieStatus.success) {
-          return _info(context, state.loadedMovie!);
+        if (state.status == MovieStatus.success) {
+          return GridView.builder(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisExtent: 290,
+              ),
+              itemCount: state.favoritesMovies!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _info(context, state.favoritesMovies![index]);
+              });
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -61,8 +75,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  Widget _info(BuildContext context, FavoritesMovieModel element) {
-    return Text(element.name ??'');
+  Widget _info(BuildContext context, FavoritesScreenModel element) {
+    return Text(element.name ?? '');
   }
 
    */
