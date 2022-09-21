@@ -57,9 +57,7 @@ class _MovieDetailsState extends State<MovieDetails> {
             child: CircularProgressIndicator(),
           );
         }
-        if (state.status == MovieDetailsStatus.save) {
-          print('save');
-        }
+
         if (state.status == MovieDetailsStatus.success) {
           return ListView(
             children: [
@@ -86,6 +84,8 @@ class _MovieDetailsState extends State<MovieDetails> {
               ),
             ],
           );
+        }
+        if (state.status == MovieDetailsStatus.save) {
         }
         return const Center(
           child: CircularProgressIndicator(),

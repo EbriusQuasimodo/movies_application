@@ -20,14 +20,6 @@ class FavoritesScreenBloc
           const FavoritesScreenState.loading(),
         );
       }
-      final movies = await service.favoritesMovies(
-          event.movieId, event.poster, event.name, event.year);
-      emit(
-        FavoritesScreenState.success(
-          favoritesMovies: movies!,
-          //List.of(state.favoritesMovies)..addAll(movies),
-        ),
-      );
     });
   }
 }

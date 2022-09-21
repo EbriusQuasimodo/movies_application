@@ -13,20 +13,20 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final MovieRepository movieRepository;
   final int movieId;
   final SaveToFavoritesService service;
+  List<FavoritesScreenModel> favoritesMovies = [];
 
-  MovieDetailsBloc(
-      {required this.movieRepository,
-      required this.movieId,
-      required this.service})
+  MovieDetailsBloc({required this.movieRepository,
+    required this.movieId,
+    required this.service})
       : super(
-          MovieDetailsState.initial(id: movieId),
-        ) {
+    MovieDetailsState.initial(id: movieId),
+  ) {
     on<MovieDetailsEvent>((event, emit) async {
       emit(
         MovieDetailsState.loading(id: movieId),
       );
       final MovieDetailsModel loadedMovie =
-          await movieRepository.fetchAllDetails(id: state.id);
+      await movieRepository.fetchAllDetails(id: state.id);
       emit(
         MovieDetailsState.success(
           loadMovies: loadedMovie,
@@ -36,10 +36,13 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       );
     });
     on<SaveToFavoritesScreenEvent>((event, emit) async {
-      final favoritesMovie = await service.favoritesMovies(
-          event.movieId, event.poster, event.name, event.year);
+      final favoritesMovie = await service.addFavorites(FavoritesScreenModel(movieId: event.movieId,
+          poster: event.poster,
+          name: event.name,
+          year: event.year));
+      final allFavoritesMovie = await service.favoritesMovies().then((value) {favoritesMovies=value;});
       emit(MovieDetailsState.save(
-          favoritesMovie: favoritesMovie, id: event.movieId));
+          favoritesMovie: allFavoritesMovie, id: movieId));
     });
   }
 }

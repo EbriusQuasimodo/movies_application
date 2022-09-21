@@ -12,8 +12,6 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<FavoritesScreenModel>(FavoritesScreenModelAdapter());
 
-  final favoritesService= SaveToFavoritesService();
-  await favoritesService.init();
 
   runApp(const MyApp());
 }
