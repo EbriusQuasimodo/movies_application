@@ -59,7 +59,6 @@ class _MovieDetailsState extends State<MovieDetails> {
         }
         if (state.status == MovieDetailsStatus.save) {
           print('save');
-          print(service.favorites);
         }
         if (state.status == MovieDetailsStatus.success) {
           return ListView(
