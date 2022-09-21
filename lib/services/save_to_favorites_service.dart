@@ -5,29 +5,27 @@ class SaveToFavoritesService {
   Box<FavoritesScreenModel>? favorites;
 
   Future<void> init() async {
-    favorites = await Hive.openBox('favorites_movie');
+    favorites = await Hive.openBox<FavoritesScreenModel>('favorites_movie');
   }
 
-  List<FavoritesScreenModel>? favoritesMovies(final int movieId,
-      final String? poster, final String? name, final int? year) {
-  favorites?.add(FavoritesScreenModel(movieId: movieId, poster: poster, name: name, year: year));
-    /*
+  Future<List<FavoritesScreenModel>?> favoritesMovies(final int movieId,
+      final String? poster, final String? name, final int? year) async {
     final favoritesMovie = favorites?.values.where((element) =>
         element.movieId == movieId &&
         element.poster == poster &&
         element.name == name &&
         element.year == year);
     return favoritesMovie?.toList();
-
-     */
-    //print(favorites.values);
   }
 
+/*
   void addFavorites(final int movieId, final String? poster, final String? name,
       final int? year) {
-    favorites?.add(FavoritesScreenModel(
+    favorites.add(List<FavoritesScreenModel>(
         movieId: movieId, poster: poster, name: name, year: year));
   }
+
+ */
 
   void removeFavorites(final int movieId) async {
     final favoritesMovieToRemove =

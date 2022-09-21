@@ -8,7 +8,7 @@ class MovieDetailsState {
     this.status = MovieDetailsStatus.initial,
     required this.id,
     this.loadedMovie,
-    this.favoritesMovie,
+    this.favoritesMovie = const <FavoritesScreenModel>[],
   });
 
   final List<FavoritesScreenModel>? favoritesMovie;
@@ -32,7 +32,10 @@ class MovieDetailsState {
   const MovieDetailsState.error({required int id})
       : this._(status: MovieDetailsStatus.error, id: id);
 
-  const MovieDetailsState.save({required List<FavoritesScreenModel>? favoritesMovie, required int id})
-      : this._(status: MovieDetailsStatus.save, id: id, favoritesMovie: favoritesMovie);
-
+  const MovieDetailsState.save(
+      {required List<FavoritesScreenModel>? favoritesMovie, required int id})
+      : this._(
+            status: MovieDetailsStatus.save,
+            id: id,
+            favoritesMovie: favoritesMovie);
 }

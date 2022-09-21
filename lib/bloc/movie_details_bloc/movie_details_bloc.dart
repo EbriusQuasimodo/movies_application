@@ -36,13 +36,10 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       );
     });
     on<SaveToFavoritesScreenEvent>((event, emit) async {
-      final favoritesMovie = service.favoritesMovies(
+      final favoritesMovie = await service.favoritesMovies(
           event.movieId, event.poster, event.name, event.year);
       emit(MovieDetailsState.save(
           favoritesMovie: favoritesMovie, id: event.movieId));
-      print(event);
-      print(event.movieId);
-      print(service.favorites?.values);
     });
   }
 }

@@ -12,18 +12,20 @@ class FavoritesScreenBloc
   final SaveToFavoritesService service;
 
   FavoritesScreenBloc({required this.service})
-      : super(const FavoritesScreenState.initial()) {
-    on<GetFavoritesMoviesEvent>((event, emit) {
+      : super(
+            const FavoritesScreenState.initial()) {
+    on<GetFavoritesMoviesEvent>((event, emit) async {
       if (event.shouldShowProgress) {
         emit(
           const FavoritesScreenState.loading(),
         );
       }
-      final movies = service.favoritesMovies(
+      final movies = await service.favoritesMovies(
           event.movieId, event.poster, event.name, event.year);
       emit(
         FavoritesScreenState.success(
-          favoritesMovies: List.of(state.favoritesMovies!)..addAll(movies!),
+          favoritesMovies: movies!,
+          //List.of(state.favoritesMovies)..addAll(movies),
         ),
       );
     });
