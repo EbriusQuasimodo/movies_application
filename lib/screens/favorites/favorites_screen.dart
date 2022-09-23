@@ -9,75 +9,69 @@ class FavoritesScreen extends StatefulWidget {
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-/*
-late final FavoritesScreenModel model;
-final SaveToFavoritesService service = SaveToFavoritesService();
-*/
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  /*
-  late final FavoritesScreenBloc _bloc = FavoritesScreenBloc(service: RepositoryProvider.of<SaveToFavoritesService>(context),)
-    ..add(
-      GetFavoritesMoviesEvent(
-        shouldShowProgress: true,
-        movieId: model.movieId,
-        name: model.name,
-        poster: model.poster,
-        year: model.year,
-      ),
-    );
-
- */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      color: Colors.yellowAccent,
-    )
-        /*
-      BlocProvider(
-        create: (_) => _bloc,
-        child: _favoritesBloc(context),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: 290,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return _buildMovieItem();
+        },
       ),
-
-       */
-        );
-  }
-/*
-
-  Widget _favoritesBloc(BuildContext context) {
-    return BlocBuilder<FavoritesScreenBloc, FavoritesScreenState>(
-      builder: (context, state) {
-        if (state.status == MovieStatus.error) {
-          return const Text('error');
-        }
-        if (state.status == MovieStatus.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state.status == MovieStatus.success) {
-          return GridView.builder(
-              padding: const EdgeInsets.all(10),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisExtent: 290,
-              ),
-              itemCount: state.favoritesMovies!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _info(context, state.favoritesMovies![index]);
-              });
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
     );
   }
 
-  Widget _info(BuildContext context, FavoritesScreenModel element) {
-    return Text(element.name ?? '');
+  Widget _buildMovieItem() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                color: Colors.black12,
+              ),
+              //element.poster?.previewUrl == null
+              //? Container(
+              //color: Colors.black12,
+              //: Image.network(element.poster?.previewUrl ?? ''),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          "название",
+          style: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        const Text(
+          'дата',
+          style: TextStyle(
+            color: Colors.black26,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
-
-   */
 }

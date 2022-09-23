@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:movies_app/models/favorites_movie_model.dart';
 import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/models/movie_model.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -33,18 +32,6 @@ class ApiClientDio {
         '/movie?token=$token&field=id&search=$id',
       );
       return MovieDetailsModel.fromJson(response.data);
-    } on DioError catch (error) {
-      print(error);
-      rethrow;
-    }
-  }
-
-  Future<FavoritesMovieModel> getFavoritesMovieDio(int id) async {
-    try {
-      Response response = await dio.get(
-        '/movie?token=$token&field=id&search=$id',
-      );
-      return FavoritesMovieModel.fromJson(response.data);
     } on DioError catch (error) {
       print(error);
       rethrow;
