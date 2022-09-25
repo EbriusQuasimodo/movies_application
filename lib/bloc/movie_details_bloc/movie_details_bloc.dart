@@ -11,8 +11,6 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   final MovieRepository movieRepository;
   final int movieId;
 
-  //List<FavoritesScreenModel> favoritesMovies = [];
-
   MovieDetailsBloc({required this.movieRepository, required this.movieId})
       : super(
           MovieDetailsState.initial(id: movieId),
