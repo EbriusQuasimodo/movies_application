@@ -100,14 +100,14 @@ class PersonsDetailsModel {
   });
 
   int id;
-  String name;
+  String? name;
   String photo;
   String? description;
 
   factory PersonsDetailsModel.fromJson(Map<String, dynamic> json) {
     return PersonsDetailsModel(
       id: json['id'],
-      name: json['name'],
+      name: json['name'] ?? '',
       photo: json['photo'],
       description: json['description'] ?? '',
     );

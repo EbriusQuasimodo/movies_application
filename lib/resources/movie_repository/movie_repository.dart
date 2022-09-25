@@ -12,4 +12,7 @@ class MovieRepository {
 
   Future<MovieDetailsModel> fetchAllDetails({required int id}) =>
       apiClient.getMovieDetailsDio(id);
+
+  Future<dynamic> addMovie({required MovieDetailsModel movie}) =>
+      service.addFavorites(movie);
 }

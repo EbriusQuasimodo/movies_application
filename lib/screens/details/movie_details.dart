@@ -24,8 +24,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   late final MovieDetailsBloc _bloc = MovieDetailsBloc(
     movieRepository: movieRepository,
     movieId: widget.movieId,
-    service: RepositoryProvider.of<SaveToFavoritesService>(context),
-  )..add(GetMovieDetailsEvent());
+  )..add(GetMovieDetailsEvent(shouldShowProgress: true));
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +83,6 @@ class _MovieDetailsState extends State<MovieDetails> {
               ),
             ],
           );
-        }
-        if (state.status == MovieDetailsStatus.save) {
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -171,10 +168,9 @@ class _MovieDetailsState extends State<MovieDetails> {
         child: ElevatedButton(
           onPressed: () => BlocProvider.of<MovieDetailsBloc>(context).add(
             SaveToFavoritesScreenEvent(
-                movieId: widget.movieId,
-                poster: element.poster?.previewUrl,
-                name: element.name,
-                year: element.year),
+              isOnFavorites: true,
+              shouldShowProgress: false,
+            ),
           ),
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -314,7 +310,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     child: Column(
                       children: [
                         Text(
-                          elementPerson.name,
+                          elementPerson.name ?? '',
                           maxLines: 2,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
