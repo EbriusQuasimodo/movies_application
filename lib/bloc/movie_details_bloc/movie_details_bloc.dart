@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
@@ -34,13 +35,15 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     on<SaveToFavoritesScreenEvent>((event, emit) async {
       final MovieDetailsModel loadedMovie =
           await movieRepository.fetchAllDetails(id: state.id);
+      //final allFavoritesMovie =
+      // await movieRepository.addMovie(movie: loadedMovie);
       final allFavoritesMovie =
-          await movieRepository.addMovie(movie: loadedMovie);
-      //final allFavoritesMovie = await movieRepository.addMovie().then((value) {
-      //movieRepository.fetchAllDetails(id: movieId);
+          await movieRepository.addMovie(movie: loadedMovie).then((value) {
+        movieRepository.fetchAllDetails(id: movieId);
+      });
       if (event.isOnFavorites) {
         emit(MovieDetailsState.success(
-            loadMovies: allFavoritesMovie, id: movieId));
+            id: movieId, loadMovies: allFavoritesMovie));
       }
     });
   }

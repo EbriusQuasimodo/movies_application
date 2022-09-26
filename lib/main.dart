@@ -11,7 +11,8 @@ import 'package:movies_app/services/save_to_favorites_service.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<FavoritesScreenModel>(FavoritesScreenModelAdapter());
-
+  SaveToFavoritesService service = SaveToFavoritesService();
+  service.favoritesBox();
 
   runApp(const MyApp());
 }
@@ -43,10 +44,7 @@ class MyApp extends StatelessWidget {
           "/home_screen": (context) => const HomeScreen(),
           "/favorites_screen": (context) => const FavoritesScreen(),
           "/home_screen/movie_details_screen": (context) {
-            final arguments = ModalRoute
-                .of(context)
-                ?.settings
-                .arguments;
+            final arguments = ModalRoute.of(context)?.settings.arguments;
             if (arguments is int) {
               return MovieDetails(movieId: arguments);
             } else {

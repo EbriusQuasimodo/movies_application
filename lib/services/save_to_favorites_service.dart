@@ -16,9 +16,13 @@ class SaveToFavoritesService {
     return movies;
   }
 
-  Future<dynamic> addFavorites(MovieDetailsModel movies) async {
+  Future<dynamic> addFavorites(MovieDetailsModel? movie) async {
     final box = await favoritesBox();
-    await box.add(movies);
+    await box.add(FavoritesScreenModel(
+        movieId: movie!.id,
+        poster: movie.poster?.previewUrl,
+        name: movie.name,
+        year: movie.year));
   }
 
   void removeFavorites(final int movieId) async {
