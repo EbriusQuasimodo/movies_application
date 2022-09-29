@@ -40,8 +40,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   void _onMovieTap(int index) {
     final id = _bloc.state.loadMovies[index].id;
-    Navigator.of(context)
-        .pushNamed('/home_screen/movie_details_screen', arguments: id);
+    Navigator.of(context).pushNamed('/movie_details_screen', arguments: id);
   }
 
   @override

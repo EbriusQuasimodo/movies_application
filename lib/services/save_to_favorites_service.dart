@@ -8,8 +8,7 @@ class SaveToFavoritesService {
     return favorites;
   }
 
-  Future<List<FavoritesScreenModel>> favoritesMovies(
-      MovieDetailsModel movie) async {
+  Future<List<FavoritesScreenModel>> favoritesMovies() async {
     final box = await favoritesBox();
     List<FavoritesScreenModel> movies =
         box.values.cast<FavoritesScreenModel>().toList();

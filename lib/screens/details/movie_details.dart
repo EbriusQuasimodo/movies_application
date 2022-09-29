@@ -20,11 +20,18 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   final MovieRepository movieRepository = MovieRepository();
   final SaveToFavoritesService service = SaveToFavoritesService();
+  late Color _buttonColor;
 
   late final MovieDetailsBloc _bloc = MovieDetailsBloc(
     movieRepository: movieRepository,
     movieId: widget.movieId,
   )..add(GetMovieDetailsEvent(shouldShowProgress: true));
+
+  @override
+  void initState() {
+    _buttonColor = Colors.pink[100]!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +185,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-            backgroundColor: MaterialStateProperty.all(Colors.pink[100]),
+            backgroundColor: MaterialStateProperty.all(_buttonColor),
           ),
           child: const Text(
             "Добавить в избранное",

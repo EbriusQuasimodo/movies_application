@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/home_screen": (context) => const HomeScreen(),
           "/favorites_screen": (context) => const FavoritesScreen(),
-          "/home_screen/movie_details_screen": (context) {
+          "/movie_details_screen": (context) {
             final arguments = ModalRoute.of(context)?.settings.arguments;
             if (arguments is int) {
               return MovieDetails(movieId: arguments);

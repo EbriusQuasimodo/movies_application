@@ -1,3 +1,4 @@
+import 'package:movies_app/models/favorites_screen_model.dart';
 import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/api_client/api_client_dio.dart';
@@ -15,4 +16,7 @@ class MovieRepository {
 
   Future<dynamic> addMovie({required MovieDetailsModel movie}) =>
       service.addFavorites(movie);
+
+  Future<List<FavoritesScreenModel>> fetchFavoritesMovies() =>
+      service.favoritesMovies();
 }
