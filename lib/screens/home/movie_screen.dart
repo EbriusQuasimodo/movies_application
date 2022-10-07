@@ -5,17 +5,20 @@ import 'package:movies_app/models/movie_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({Key? key}) : super(key: key);
+  final MovieRepository movieRepository;
+
+  const MovieScreen({
+    Key? key,
+    required this.movieRepository,
+  }) : super(key: key);
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();
 }
 
 class _MovieScreenState extends State<MovieScreen> {
-  final MovieRepository movieRepository = MovieRepository();
-
   late final MovieScreenBloc _bloc =
-      MovieScreenBloc(movieRepository: movieRepository)
+      MovieScreenBloc(movieRepository: widget.movieRepository)
         ..add(GetMoviesEvent(shouldShowProgress: true));
   final ScrollController scrollController = ScrollController();
 

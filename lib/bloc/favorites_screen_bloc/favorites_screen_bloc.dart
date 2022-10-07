@@ -20,11 +20,12 @@ class FavoritesScreenBloc
             const FavoritesScreenState.loading(),
           );
         }
-        await emit.onEach<List<FavoritesScreenModel>>(
-          movieRepository.fetchFavoritesMovies(),
+        emit.onEach<List<FavoritesScreenModel>>(
+          movieRepository.favoritesMovies(),
           onData: (loadedMovies) =>
               add(LoadFavoritesEvent(loadedMovies: loadedMovies)),
         );
+        movieRepository.loadFavorites();
       },
     );
     on<LoadFavoritesEvent>(

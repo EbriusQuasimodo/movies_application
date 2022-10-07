@@ -7,10 +7,12 @@ import 'package:movies_app/services/save_to_favorites_service.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
+  final MovieRepository movieRepository;
 
   const MovieDetails({
     Key? key,
     required this.movieId,
+    required this.movieRepository,
   }) : super(key: key);
 
   @override
@@ -18,12 +20,11 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
-  final MovieRepository movieRepository = MovieRepository();
   final SaveToFavoritesService service = SaveToFavoritesService();
   late Color _buttonColor;
 
   late final MovieDetailsBloc _bloc = MovieDetailsBloc(
-    movieRepository: movieRepository,
+    movieRepository: widget.movieRepository,
     movieId: widget.movieId,
   )..add(GetMovieDetailsEvent(shouldShowProgress: true));
 

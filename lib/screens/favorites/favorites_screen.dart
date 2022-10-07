@@ -5,8 +5,11 @@ import 'package:movies_app/models/favorites_screen_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class FavoritesScreen extends StatefulWidget {
+  final MovieRepository movieRepository;
+
   const FavoritesScreen({
     Key? key,
+    required this.movieRepository,
   }) : super(key: key);
 
   @override
@@ -14,10 +17,9 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  final MovieRepository movieRepository = MovieRepository();
 
   late final FavoritesScreenBloc _bloc =
-      FavoritesScreenBloc(movieRepository: movieRepository)
+      FavoritesScreenBloc(movieRepository: widget.movieRepository)
         ..add(GetFavoritesMoviesEvent(shouldShowProgress: true));
 
   void _onMovieTap(int index) {

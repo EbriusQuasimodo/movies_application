@@ -17,8 +17,12 @@ class MovieRepository {
   Future<dynamic> addMovie({required MovieDetailsModel movie}) =>
       service.addFavorites(movie);
 
-  Stream<List<FavoritesScreenModel>> fetchFavoritesMovies() =>
-      service.favoritesMovies();
+  // Этот метод возвращает поток со списоком избранного
+  Stream<List<FavoritesScreenModel>> favoritesMovies() =>
+      service.favoritesMovies;
+
+  // Этот метод подгружает текущий список избранного в поток
+  void loadFavorites() => service.loadFavoritesMovies();
 
   Future<dynamic> deleteMovie({required int index}) =>
       service.removeFavorites(index);
