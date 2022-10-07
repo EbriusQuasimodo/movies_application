@@ -35,8 +35,6 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
     on<SaveToFavoritesScreenEvent>((event, emit) async {
       final MovieDetailsModel loadedMovie =
           await movieRepository.fetchAllDetails(id: state.id);
-      //final allFavoritesMovie =
-      // await movieRepository.addMovie(movie: loadedMovie);
       final allFavoritesMovie =
           await movieRepository.addMovie(movie: loadedMovie).then((value) {
         movieRepository.fetchAllDetails(id: movieId);

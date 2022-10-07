@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movies_app/bloc/favorites_screen_bloc/favorites_screen_bloc.dart';
 import 'package:movies_app/models/favorites_screen_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
@@ -48,22 +47,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           );
         }
         if (state.status == MovieStatus.success) {
-          return ValueListenableBuilder(
-            valueListenable:
-                Hive.box<FavoritesScreenModel>('favorites_movie').listenable(),
-            builder: (context, Box<FavoritesScreenModel> favorites, _) {
-              return GridView.builder(
-                padding: const EdgeInsets.all(10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: 290,
-                ),
-                itemCount: state.favoritesMovies.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildMovieItem(
-                      context, state.favoritesMovies[index], index);
-                },
-              );
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisExtent: 290,
+            ),
+            itemCount: state.favoritesMovies.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildMovieItem(
+                  context, state.favoritesMovies[index], index);
             },
           );
         }
@@ -86,6 +79,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             ),
             child: GestureDetector(
               onTap: () => _onMovieTap(index),
+              onDoubleTap: () => BlocProvider.of<FavoritesScreenBloc>(context)
+                  .add(DeleteFavoritesMovieEvent(index: index)),
               child: Image.network(element.poster!),
             ),
           ),

@@ -13,15 +13,31 @@ class FavoritesScreenBloc
 
   FavoritesScreenBloc({required this.movieRepository})
       : super(const FavoritesScreenState.initial()) {
-    on<GetFavoritesMoviesEvent>((event, emit) async {
-      if (event.shouldShowProgress) {
-        emit(
-          const FavoritesScreenState.loading(),
+    on<GetFavoritesMoviesEvent>(
+      (event, emit) async {
+        if (event.shouldShowProgress) {
+          emit(
+            const FavoritesScreenState.loading(),
+          );
+        }
+        await emit.onEach<List<FavoritesScreenModel>>(
+          movieRepository.fetchFavoritesMovies(),
+          onData: (loadedMovies) =>
+              add(LoadFavoritesEvent(loadedMovies: loadedMovies)),
         );
-      }
-      final List<FavoritesScreenModel> loadedMovieList =
-          await movieRepository.fetchFavoritesMovies();
-      emit(FavoritesScreenState.success(favoritesMovies: loadedMovieList));
-    });
+      },
+    );
+    on<LoadFavoritesEvent>(
+      (event, emit) async {
+        emit(
+          FavoritesScreenState.success(favoritesMovies: event.loadedMovies),
+        );
+      },
+    );
+    on<DeleteFavoritesMovieEvent>(
+      (event, emit) async {
+        await movieRepository.deleteMovie(index: event.index);
+      },
+    );
   }
 }

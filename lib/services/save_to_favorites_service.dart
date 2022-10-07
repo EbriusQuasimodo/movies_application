@@ -8,11 +8,11 @@ class SaveToFavoritesService {
     return favorites;
   }
 
-  Future<List<FavoritesScreenModel>> favoritesMovies() async {
+  Stream<List<FavoritesScreenModel>> favoritesMovies() async* {
     final box = await favoritesBox();
     List<FavoritesScreenModel> movies =
         box.values.cast<FavoritesScreenModel>().toList();
-    return movies;
+    yield movies;
   }
 
   Future<dynamic> addFavorites(MovieDetailsModel? movie) async {
@@ -24,8 +24,8 @@ class SaveToFavoritesService {
         year: movie.year));
   }
 
-  void removeFavorites(final int movieId) async {
+  Future<dynamic> removeFavorites(final int index) async {
     final box = await favoritesBox();
-    await box.delete(movieId);
+    await box.deleteAt(index);
   }
 }

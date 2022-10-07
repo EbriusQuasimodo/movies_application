@@ -168,17 +168,28 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget _favoritesButton(BuildContext context, MovieDetailsModel element) {
+    bool checkFavorites;
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
       child: SizedBox(
         height: 50,
         child: ElevatedButton(
-          onPressed: () => BlocProvider.of<MovieDetailsBloc>(context).add(
-            SaveToFavoritesScreenEvent(
-              isOnFavorites: true,
-              shouldShowProgress: false,
-            ),
-          ),
+          onPressed: () {
+            checkFavorites = true;
+            BlocProvider.of<MovieDetailsBloc>(context).add(
+              SaveToFavoritesScreenEvent(
+                isOnFavorites: checkFavorites,
+                shouldShowProgress: false,
+              ),
+            );
+            setState(() {
+              if (checkFavorites == true) {
+                _buttonColor = Colors.grey;
+              } else {
+                _buttonColor = Colors.pink[100]!;
+              }
+            });
+          },
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
