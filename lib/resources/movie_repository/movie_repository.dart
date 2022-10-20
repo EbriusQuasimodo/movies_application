@@ -17,9 +17,11 @@ class MovieRepository {
   Future<dynamic> addMovie({required MovieDetailsModel movie}) =>
       service.addFavorites(movie);
 
-  Stream<List<FavoritesScreenModel>> fetchFavoritesMovies() =>
-      service.favoritesMovies();
+  Stream<List<FavoritesScreenModel>> favoritesMovies() =>
+      service.favoritesMovies;
 
-  Future<dynamic> deleteMovie({required int index}) =>
-      service.removeFavorites(index);
+  void loadFavorites() => service.loadFavoritesMovies();
+
+  void deleteFavorites({required MovieDetailsModel? movie}) =>
+      service.removeFavorites(movie);
 }

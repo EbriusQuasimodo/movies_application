@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/favorites_screen_bloc/favorites_screen_bloc.dart';
 import 'package:movies_app/models/favorites_screen_model.dart';
+import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 
 class FavoritesScreen extends StatefulWidget {
+  final MovieRepository movieRepository;
+
   const FavoritesScreen({
     Key? key,
+    required this.movieRepository,
   }) : super(key: key);
 
   @override
@@ -14,10 +18,8 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  final MovieRepository movieRepository = MovieRepository();
-
   late final FavoritesScreenBloc _bloc =
-      FavoritesScreenBloc(movieRepository: movieRepository)
+      FavoritesScreenBloc(movieRepository: widget.movieRepository)
         ..add(GetFavoritesMoviesEvent(shouldShowProgress: true));
 
   void _onMovieTap(int index) {
@@ -55,8 +57,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             ),
             itemCount: state.favoritesMovies.length,
             itemBuilder: (BuildContext context, int index) {
-              return _buildMovieItem(
-                  context, state.favoritesMovies[index], index);
+              return _buildMovieItem(context, state.favoritesMovies[index],
+                  index, state.movieDetails);
             },
           );
         }
@@ -67,8 +69,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  Widget _buildMovieItem(
-      BuildContext context, FavoritesScreenModel element, int index) {
+  Widget _buildMovieItem(BuildContext context, FavoritesScreenModel element,
+      int index, MovieDetailsModel? movie) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -80,7 +82,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: GestureDetector(
               onTap: () => _onMovieTap(index),
               onDoubleTap: () => BlocProvider.of<FavoritesScreenBloc>(context)
-                  .add(DeleteFavoritesMovieEvent(index: index)),
+                  .add(DeleteFavoritesMovieEvent(movie: movie)),
               child: Image.network(element.poster!),
             ),
           ),

@@ -18,7 +18,7 @@ class LoadFavoritesEvent extends FavoritesScreenEvent {
 }
 
 class DeleteFavoritesMovieEvent extends FavoritesScreenEvent {
-  final int index;
+  final MovieDetailsModel? movie;
 
-  DeleteFavoritesMovieEvent({required this.index});
+  DeleteFavoritesMovieEvent({required this.movie});
 }

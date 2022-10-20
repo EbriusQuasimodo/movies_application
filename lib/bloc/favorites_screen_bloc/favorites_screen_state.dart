@@ -7,10 +7,12 @@ class FavoritesScreenState {
   const FavoritesScreenState._({
     this.status = MovieStatus.initial,
     this.favoritesMovies = const <FavoritesScreenModel>[],
+    this.movieDetails,
   });
 
   final MovieStatus status;
   final List<FavoritesScreenModel> favoritesMovies;
+  final MovieDetailsModel? movieDetails;
 
   const FavoritesScreenState.initial() : this._();
 
@@ -21,7 +23,10 @@ class FavoritesScreenState {
 
   const FavoritesScreenState.success(
       {required List<FavoritesScreenModel> favoritesMovies})
-      : this._(status: MovieStatus.success, favoritesMovies: favoritesMovies);
+      : this._(
+          status: MovieStatus.success,
+          favoritesMovies: favoritesMovies,
+        );
 
   const FavoritesScreenState.error()
       : this._(
