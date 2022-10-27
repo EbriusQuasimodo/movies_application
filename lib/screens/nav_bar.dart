@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:movies_app/screens/User/user_screen.dart';
+import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 import 'package:movies_app/screens/favorites/favorites_screen.dart';
 import 'package:movies_app/screens/home/movie_screen.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+
+  final MovieRepository movieRepository;
+  const NavBar({Key? key, required this.movieRepository}) : super(key: key);
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -29,9 +30,12 @@ class _NavBarState extends State<NavBar> {
       body: IndexedStack(
         index: _selectedPage,
         children: [
-          MovieScreen(),
-          const FavoritesScreen(),
-          const UserScreen(),
+          MovieScreen(
+            movieRepository: widget.movieRepository,
+          ),
+          FavoritesScreen(
+            movieRepository: widget.movieRepository,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -44,10 +48,6 @@ class _NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'избранное',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'профиль',
           ),
         ],
         onTap: onSelectPage,
