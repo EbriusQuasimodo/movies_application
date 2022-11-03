@@ -22,6 +22,5 @@ class MovieRepository {
 
   void loadFavorites() => service.loadFavoritesMovies();
 
-  void deleteFavorites({required MovieDetailsModel? movie}) =>
-      service.removeFavorites(movie);
+  void deleteFavorites({required int index}) => service.removeFavorites(index);
 }

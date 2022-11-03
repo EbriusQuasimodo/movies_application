@@ -45,5 +45,24 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
             id: movieId, loadMovies: allFavoritesMovie));
       }
     });
-  }
+    /*
+    on<DeleteFavoritesMovieEvent>((event, emit) async {
+      final MovieDetailsModel loadedMovie =
+      await movieRepository.fetchAllDetails(id: state.id);
+
+      final allFavoritesMovie =
+      await movieRepository.addMovie(movie: loadedMovie).then((value) {
+        movieRepository.fetchAllDetails(id: movieId);});
+
+      final allDeleteFavorites = movieRepository.deleteFavorites(movie: allFavoritesMovie).then((value){movieRepository.fetchAllDetails(id: movieId);});
+
+        if (event.isOnFavorites) {
+          emit(MovieDetailsState.success(
+              id: movieId, loadMovies: allDeleteFavorites));
+        }
+      });
+
+     */
+
+    }
 }

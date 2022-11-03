@@ -14,26 +14,35 @@ class FavoritesScreenBloc
 
   FavoritesScreenBloc({required this.movieRepository})
       : super(const FavoritesScreenState.initial()) {
-    on<GetFavoritesMoviesEvent>(
-      (event, emit) {
-        if (event.shouldShowProgress) {
-          emit(
-            const FavoritesScreenState.loading(),
-          );
-        }
-        emit.forEach(
-          movieRepository.favoritesMovies(),
-          onData: (List<FavoritesScreenModel> loadedMovies) {
-            return FavoritesScreenState.success(favoritesMovies: loadedMovies);
-          },
+    on<GetFavoritesMoviesEvent>((event, Emitter<FavoritesScreenState> emit) {
+      if (event.shouldShowProgress) {
+        emit(
+          const FavoritesScreenState.loading(),
         );
-
-        movieRepository.loadFavorites();
-        movieRepository.deleteFavorites(movie: state.movieDetails);
+      }
+      emit.onEach<List<FavoritesScreenModel>>(
+        movieRepository.favoritesMovies(),
+        onData: (loadedMovies) =>
+            add(LoadFavoritesEvent(loadedMovies: loadedMovies)),
+      );
+      movieRepository.loadFavorites();
+    });
+    on<LoadFavoritesEvent>(
+      (event, emit) async {
+        emit(
+          FavoritesScreenState.success(favoritesMovies: event.loadedMovies),
+        );
       },
     );
-    on<DeleteFavoritesMovieEvent>((event, emit) async {
-      movieRepository.deleteFavorites(movie: state.movieDetails);
+
+    on<DeleteFavoritesMovieEvent>((event, emit) {
+      emit.forEach(
+        movieRepository.favoritesMovies(),
+        onData: (List<FavoritesScreenModel> loadedMovies) {
+          return FavoritesScreenState.success(favoritesMovies: loadedMovies);
+        },
+      );
+      movieRepository.deleteFavorites(index: event.index);
     });
   }
 }

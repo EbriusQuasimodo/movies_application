@@ -214,15 +214,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   Widget _movieDescription(BuildContext context, MovieDetailsModel element,
       List<GenresDetailsModel> elementGenre) {
-    final genre = elementGenre;
-    var textsGenres = <String>[];
-    if (genre != null && genre.isNotEmpty) {
-      var genresNames = <String>[];
-      for (var genr in genre) {
-        genresNames.add(genr.name);
-      }
-      textsGenres.add(genresNames.join(', '));
-    }
+    final String textGenres = elementGenre.map((e) => e.name).join(', ');
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 0),
       child: Column(
@@ -255,7 +247,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
           const SizedBox(height: 10),
           Text(
-            textsGenres.join(' '),
+            textGenres,
             style: const TextStyle(
               color: Colors.black38,
               fontSize: 16,
@@ -315,10 +307,11 @@ class _MovieDetailsState extends State<MovieDetails> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: Image.network(
-                  elementPerson.photo,
-                  fit: BoxFit.cover,
-                ),
+                child: elementPerson.photo == null
+                    ? Container(
+                        color: Colors.black12,
+                      )
+                    : Image.network(elementPerson.photo ?? ''),
               ),
               const SizedBox(height: 7),
               Padding(

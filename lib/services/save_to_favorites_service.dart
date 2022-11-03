@@ -3,13 +3,18 @@ import 'dart:async';
 import 'package:hive/hive.dart';
 import 'package:movies_app/models/favorites_screen_model.dart';
 import 'package:movies_app/models/movie_details_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SaveToFavoritesService {
   final StreamController<List<FavoritesScreenModel>> _streamController =
-      StreamController();
+      BehaviorSubject();
 
   late final Stream<List<FavoritesScreenModel>> favoritesMovies =
       _streamController.stream;
+
+  void dispose() {
+    _streamController.close();
+  }
 
   Future<Box> favoritesBox() async {
     var favorites = await Hive.openBox<FavoritesScreenModel>('favorites_movie');
@@ -23,23 +28,22 @@ class SaveToFavoritesService {
     _streamController.add(movies);
   }
 
-  Future<dynamic> addFavorites(MovieDetailsModel? movie) async {
+  Future<dynamic> addFavorites(MovieDetailsModel movie) async {
     final box = await favoritesBox();
     await box.add(FavoritesScreenModel(
-        movieId: movie!.id,
+        movieId: movie.id,
         poster: movie.poster?.previewUrl,
         name: movie.name,
         year: movie.year));
 
     loadFavoritesMovies();
-    removeFavorites(movie);
   }
 
-  void removeFavorites(MovieDetailsModel? movie) async {
+  void removeFavorites(int index) async {
     final box = await favoritesBox();
-    await box.delete(movie!.id);
-    List<FavoritesScreenModel> movies =
+    await box.deleteAt(index);
+    List<FavoritesScreenModel> deleteMovies =
         box.values.cast<FavoritesScreenModel>().toList();
-    _streamController.add(movies);
+    _streamController.add(deleteMovies);
   }
 }

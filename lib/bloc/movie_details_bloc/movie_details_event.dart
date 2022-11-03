@@ -16,3 +16,11 @@ class SaveToFavoritesScreenEvent extends MovieDetailsEvent {
   SaveToFavoritesScreenEvent(
       {required this.shouldShowProgress, required this.isOnFavorites});
 }
+
+class DeleteFavoritesMovieEvent extends MovieDetailsEvent {
+  final int id;
+
+  final bool isOnFavorites;
+
+  DeleteFavoritesMovieEvent({required this.id, required this.isOnFavorites});
+}
