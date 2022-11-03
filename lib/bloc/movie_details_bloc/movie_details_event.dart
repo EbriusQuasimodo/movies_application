@@ -18,9 +18,9 @@ class SaveToFavoritesScreenEvent extends MovieDetailsEvent {
 }
 
 class DeleteFavoritesMovieEvent extends MovieDetailsEvent {
-  final int id;
+  final int index;
 
   final bool isOnFavorites;
 
-  DeleteFavoritesMovieEvent({required this.id, required this.isOnFavorites});
+  DeleteFavoritesMovieEvent({required this.index, required this.isOnFavorites});
 }

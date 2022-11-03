@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/movie_details_bloc/movie_details_bloc.dart';
+import 'package:movies_app/models/favorites_screen_model.dart';
 import 'package:movies_app/models/movie_details_model.dart';
 import 'package:movies_app/resources/movie_repository/movie_repository.dart';
 import 'package:movies_app/services/save_to_favorites_service.dart';
@@ -176,20 +177,20 @@ class _MovieDetailsState extends State<MovieDetails> {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
-            checkFavorites = true;
-            BlocProvider.of<MovieDetailsBloc>(context).add(
-              SaveToFavoritesScreenEvent(
-                isOnFavorites: checkFavorites,
-                shouldShowProgress: false,
-              ),
-            );
-            setState(() {
-              if (checkFavorites == true) {
-                _buttonColor = Colors.grey;
-              } else {
-                _buttonColor = Colors.pink[100]!;
-              }
-            });
+              checkFavorites = true;
+              BlocProvider.of<MovieDetailsBloc>(context).add(
+                SaveToFavoritesScreenEvent(
+                  isOnFavorites: checkFavorites,
+                  shouldShowProgress: false,
+                ),
+              );
+              setState(() {
+                if (checkFavorites == true) {
+                  _buttonColor = Colors.grey;
+                } else {
+                  _buttonColor = Colors.pink[100]!;
+                }
+              });
           },
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
