@@ -9,14 +9,12 @@ class MovieDetailsState {
     required this.id,
     this.loadedMovie,
 
-    this.favoritesMovies = const <FavoritesScreenModel>[],
   });
 
   final int id;
   final MovieDetailsStatus status;
   final MovieDetailsModel? loadedMovie;
 
-  final List<FavoritesScreenModel> favoritesMovies;
 
   const MovieDetailsState.initial({required int id}) : this._(id: id);
 

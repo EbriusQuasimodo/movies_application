@@ -22,3 +22,4 @@ class DeleteFavoritesMovieEvent extends FavoritesScreenEvent {
 
   DeleteFavoritesMovieEvent({required this.index});
 }
+

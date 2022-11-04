@@ -20,29 +20,19 @@ class FavoritesScreenBloc
           const FavoritesScreenState.loading(),
         );
       }
-      emit.onEach<List<FavoritesScreenModel>>(
-        movieRepository.favoritesMovies(),
-        onData: (loadedMovies) =>
-            add(LoadFavoritesEvent(loadedMovies: loadedMovies)),
-      );
       movieRepository.loadFavorites();
+      return emit.forEach(movieRepository.favoritesMovies(),
+          onData: (List<FavoritesScreenModel> loadedMovies) {
+        return FavoritesScreenState.success(favoritesMovies: loadedMovies);
+      });
     });
-    on<LoadFavoritesEvent>(
-      (event, emit) async {
-        emit(
-          FavoritesScreenState.success(favoritesMovies: event.loadedMovies),
-        );
-      },
-    );
 
     on<DeleteFavoritesMovieEvent>((event, emit) {
-      emit.forEach(
-        movieRepository.favoritesMovies(),
-        onData: (List<FavoritesScreenModel> loadedMovies) {
-          return FavoritesScreenState.success(favoritesMovies: loadedMovies);
-        },
-      );
       movieRepository.deleteFavorites(index: event.index);
+      return emit.forEach(movieRepository.favoritesMovies(),
+          onData: (List<FavoritesScreenModel> loadedMovies) {
+        return FavoritesScreenState.success(favoritesMovies: loadedMovies);
+      });
     });
   }
 }
