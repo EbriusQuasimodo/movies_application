@@ -30,20 +30,31 @@ class SaveToFavoritesService {
 
   Future<dynamic> addFavorites(MovieDetailsModel movie) async {
     final box = await favoritesBox();
-    await box.add(FavoritesScreenModel(
-        movieId: movie.id,
-        poster: movie.poster?.previewUrl,
+    if (box.containsKey(movie.id)) {
+      box.delete(movie.id);
+    }
+      await box.add(FavoritesScreenModel(
+          movieId: movie.id,
+          poster: movie.poster?.previewUrl,
         name: movie.name,
-        year: movie.year));
+          year: movie.year));
 
     loadFavoritesMovies();
   }
 
   void removeFavorites(int index) async {
     final box = await favoritesBox();
-    await box.deleteAt(index);
+      await box.deleteAt(index);
     List<FavoritesScreenModel> deleteMovies =
         box.values.cast<FavoritesScreenModel>().toList();
     _streamController.add(deleteMovies);
+  }
+
+  Future<List<FavoritesScreenModel>> removeFavoritesOnDetails(int id) async {
+    final box = await favoritesBox();
+    await box.delete(id);
+    List<FavoritesScreenModel> deleteMovies =
+   box.values.cast<FavoritesScreenModel>().toList();
+    return deleteMovies;
   }
 }

@@ -191,6 +191,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                   _buttonColor = Colors.pink[100]!;
                 }
               });
+
+          },
+          onLongPress: (){
+            checkFavorites = false;
+            BlocProvider.of<MovieDetailsBloc>(context).add(
+                DeleteFavoritesMovieEvent(
+                  isOnFavorites: checkFavorites,
+                  id: element.id,
+                ));
           },
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(

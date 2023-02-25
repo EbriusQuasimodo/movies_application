@@ -36,9 +36,17 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
           await movieRepository.fetchAllDetails(id: state.id);
 
       final allFavoritesMovie =
-          await movieRepository.addMovie(movie: loadedMovie).then((value) {
+          movieRepository.addMovie(movie: loadedMovie).then((value) {
         movieRepository.fetchAllDetails(id: movieId);
       });
+      if (event.isOnFavorites) {
+        emit(MovieDetailsState.success(id: movieId, loadMovies: loadedMovie));
+      }
+    });
+    on<DeleteFavoritesMovieEvent>((event, emit) async {
+      final MovieDetailsModel loadedMovie =
+          await movieRepository.fetchAllDetails(id: state.id);
+      movieRepository.deleteFavorites(index: event.id);
       if (event.isOnFavorites) {
         emit(MovieDetailsState.success(id: movieId, loadMovies: loadedMovie));
       }
