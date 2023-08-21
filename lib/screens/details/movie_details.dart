@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/screens/details/components/cast_list/cast_list.dart';
-import 'package:movies_app/screens/details/components/favorites_button.dart';
-import 'package:movies_app/screens/details/components/main_info.dart';
-import 'package:movies_app/screens/details/components/movie_description.dart';
-import 'package:movies_app/screens/details/components/movie_genre.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/bloc/movie_details_bloc/movie_details_bloc.dart';
+import 'package:movies_app/models/favorites_screen_model.dart';
+import 'package:movies_app/models/movie_details_model.dart';
+import 'package:movies_app/resources/movie_repository/movie_repository.dart';
+import 'package:movies_app/services/save_to_favorites_service.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieId;
+  final MovieRepository movieRepository;
 
   const MovieDetails({
     Key? key,
     required this.movieId,
+    required this.movieRepository,
   }) : super(key: key);
 
   @override
@@ -18,6 +21,20 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
+  final SaveToFavoritesService service = SaveToFavoritesService();
+  late Color _buttonColor;
+
+  late final MovieDetailsBloc _bloc = MovieDetailsBloc(
+    movieRepository: widget.movieRepository,
+    movieId: widget.movieId,
+  )..add(GetMovieDetailsEvent(shouldShowProgress: true));
+
+  @override
+  void initState() {
+    _buttonColor = Colors.pink[100]!;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,19 +42,323 @@ class _MovieDetailsState extends State<MovieDetails> {
         backgroundColor: Colors.black38,
         elevation: 0,
         title: Text(
-          "Бойцовский клуб",
+          'Детали фильма',
           style: TextStyle(color: Colors.pink[100]),
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        children: const [
-          MainInfo(),
-          FavoritesButton(),
-          MovieGenre(),
-          Description(),
-          CastList(),
+      body: BlocProvider(
+        create: (_) => _bloc,
+        child: _detailsBloc(context),
+      ),
+    );
+  }
+
+  Widget _detailsBloc(BuildContext context) {
+    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+      builder: (context, state) {
+        if (state.status == MovieDetailsStatus.error) {
+          return const Text('error');
+        }
+        if (state.status == MovieDetailsStatus.loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state.status == MovieDetailsStatus.success) {
+          return ListView(
+            children: [
+              _buildMainInfo(context, state.loadedMovie!),
+              _favoritesButton(context, state.loadedMovie!),
+              _movieDescription(
+                  context, state.loadedMovie!, state.loadedMovie!.genres),
+              _buildCastList(context, state.loadedMovie!),
+              SizedBox(
+                height: 340,
+                child: Scrollbar(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.loadedMovie!.persons.length,
+                    itemExtent: 170,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _buildActorItem(
+                          context, state.loadedMovie!.persons[index]);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _buildMainInfo(BuildContext context, MovieDetailsModel element) {
+    final rating = element.rating!.imdb.toString();
+    final ratingKp = element.rating!.kp.toString();
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            flex: 1,
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                child: element.poster?.previewUrl == null
+                    ? Container(
+                        color: Colors.black12,
+                      )
+                    : Image.network(element.poster?.previewUrl ?? '')),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  element.name ?? '',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  element.year.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.black38,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'рейтинг imdb: $rating',
+                    style: const TextStyle(
+                      color: Colors.black38,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'рейтинг kp: $ratingKp',
+                    style: const TextStyle(
+                      color: Colors.black38,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _favoritesButton(BuildContext context, MovieDetailsModel element) {
+    bool checkFavorites;
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+      child: SizedBox(
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () {
+              checkFavorites = true;
+              BlocProvider.of<MovieDetailsBloc>(context).add(
+                SaveToFavoritesScreenEvent(
+                  isOnFavorites: checkFavorites,
+                  shouldShowProgress: false,
+                ),
+              );
+              setState(() {
+                if (checkFavorites == true) {
+                  _buttonColor = Colors.grey;
+                } else {
+                  _buttonColor = Colors.pink[100]!;
+                }
+              });
+
+          },
+          onLongPress: (){
+            checkFavorites = false;
+            BlocProvider.of<MovieDetailsBloc>(context).add(
+                DeleteFavoritesMovieEvent(
+                  isOnFavorites: checkFavorites,
+                  id: element.id,
+                ));
+          },
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all(_buttonColor),
+          ),
+          child: const Text(
+            "Добавить в избранное",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _movieDescription(BuildContext context, MovieDetailsModel element,
+      List<GenresDetailsModel> elementGenre) {
+    final String textGenres = elementGenre.map((e) => e.name).join(', ');
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Описание",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            element.description ?? '',
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            "Жанры",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            textGenres,
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCastList(BuildContext context, MovieDetailsModel element) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 15),
+          child: Text(
+            'Команда',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActorItem(
+      BuildContext context, PersonsDetailsModel elementPerson) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.pink.shade50,
+          border: Border.all(
+            color: Colors.pink.shade50.withOpacity(0.2),
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.pink.shade500.withOpacity(0.2),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: elementPerson.photo == null
+                    ? Container(
+                        color: Colors.black12,
+                      )
+                    : Image.network(elementPerson.photo ?? ''),
+              ),
+              const SizedBox(height: 7),
+              Padding(
+                padding: const EdgeInsets.only(left: 3, right: 3),
+                child: SizedBox(
+                  height: 70,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          elementPerson.name ?? '',
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          elementPerson.description ?? '',
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.black38,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
